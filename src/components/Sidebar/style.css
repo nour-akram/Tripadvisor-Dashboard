@@ -1,0 +1,20 @@
+.min-vh-100 {
+  min-height: 86vh !important;
+}
+.sidebar-icon {
+  padding: 8px !important;
+  transition: all 0.6s ease;
+}
+.sidebar-item {
+  transition: all 0.6s ease;
+}
+
+.sidebar-item.hover-bg-light:hover {
+  background-color: #f8f9fa !important;
+}
+
+.active-icon-bg {
+  background-color: #3d3d3d !important;
+}
+
+

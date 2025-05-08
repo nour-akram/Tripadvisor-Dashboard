@@ -1,0 +1,1 @@
+// apply dark mode to the entire app

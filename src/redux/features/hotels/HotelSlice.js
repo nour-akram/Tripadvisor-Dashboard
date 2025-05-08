@@ -1,0 +1,1 @@
+// createSlice FOR HOTELS HERE  

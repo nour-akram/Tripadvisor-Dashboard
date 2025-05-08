@@ -1,0 +1,37 @@
+.bg-custom {
+background-color: #E0E4E7 !important;
+}
+
+.rounded-pill-start {
+border-top-left-radius: 50px !important;
+border-bottom-left-radius: 50px !important;
+}
+
+.rounded-pill-end {
+border-top-right-radius: 50px !important;
+border-bottom-right-radius: 50px !important;
+}
+
+.search-box input::placeholder {
+color: #6c757d;
+}
+
+@media (min-width: 768px) {
+  .search-box {
+    width: 75% !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .search-box {
+    width: 60% !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .responsive-logo {
+    width: 120px !important; 
+    margin-top: 10px !important;
+    height: 40px !important;
+  }
+}
