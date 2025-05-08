@@ -1,9 +1,24 @@
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
+import { useDispatch } from "react-redux";
+import { fetchHotels } from "../redux/features/hotels/HotelSlice";
+import { fetchRestaurants } from "../redux/features/restaurants/restaurantSlice";
+import { fetchAttractions } from "../redux/features/attractions/attractionSlice";
+import { fetchFlights } from "../redux/features/Flights/flightSlice";
 
-const MainLayout = () => {
+const Index = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(fetchHotels());
+    dispatch(fetchRestaurants());
+    dispatch(fetchAttractions());
+    dispatch(fetchFlights());
+  }, [dispatch]);
+
   return (
     <div>
       <Header />
@@ -21,4 +36,4 @@ const MainLayout = () => {
   );
 };
 
-export default MainLayout;
+export default Index;
