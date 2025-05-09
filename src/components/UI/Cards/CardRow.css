@@ -1,0 +1,130 @@
+ .card-row-container {
+  background-color: white;
+  margin-bottom: 16px;
+  padding: 5px ; 
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05); 
+  border-radius: 50px; 
+}
+
+.card-row {
+  display: flex;
+  flex-wrap: wrap; 
+}
+
+.card-cell {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+}
+
+.card-cell.name-cell {
+  justify-content: flex-start;
+}
+
+.card-image {
+  width: 40px;
+  height:40px;
+  border-radius: 10px;
+  border: 2px solid #333;
+  object-fit: cover;
+}
+
+.card-name {
+  padding-left: 12px;
+  font-weight: 500;
+  color: #333;
+}
+
+.rate-cell {
+  color: #00d084;
+  font-weight: 600;
+}
+
+.rate-dots {
+  margin-left: 6px;
+  letter-spacing: 2px;
+  color: #00d084;
+}
+
+.status-icon {
+  font-size: 18px;
+}
+
+.status-icon.success {
+  color: #00cc66;
+}
+
+.status-icon.fail {
+  color: #e74c3c;
+}
+
+.actions-cell {
+  display: flex;
+  gap: 12px;
+}
+
+.action-button {
+  background: #f3f4f6;
+  padding: 8px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  color: #555;
+  transition: 0.2s ease;
+}
+
+.action-button.edit:hover {
+  background: #dbeafe;
+  color: #2563eb;
+}
+
+.action-button.delete:hover {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+  
+
+
+
+
+  .table-container {
+    display: block;
+    width: 100%;
+}
+
+.table-header {
+  font-size: large;
+  font-weight: 1.5rem;
+  font-weight: bold;
+}
+
+.table-row {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.table-cell {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px; 
+}
+
+.table-cell.p-4 {
+    padding: 16px;
+}
+
+
+
+
+
+
+
+.filled-dot {
+  color: #00d084; 
+  font-size: 1.5rem; 
+}

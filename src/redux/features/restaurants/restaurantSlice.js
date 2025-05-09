@@ -6,6 +6,8 @@ export const fetchRestaurants = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const response = await api.get("/resturants");
+      console.log("Requesting:", api.defaults.baseURL + "/resturants");
+
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
