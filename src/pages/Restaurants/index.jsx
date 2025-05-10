@@ -6,7 +6,7 @@ const index = () => {
   return (
     <Provider store={store}>
     <div >
-<CardTable endpoint="/resturants" />
+<CardTable endpoint="/resturants" type="restaurant"/>
     </div>
   </Provider>
   )

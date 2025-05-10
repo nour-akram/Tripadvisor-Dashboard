@@ -1,10 +1,22 @@
-import CardTable from "../../components/UI/Cards/CardTable";
-const index = () => {
-  return (
-    <div>
-      <CardTable endpoint="/hotels" />
-    </div>
-  );
-};
+import React from 'react'
+import { Provider } from 'react-redux';
+import { store } from '../../redux/store';
+import CardTable from '../../components/UI/Cards/CardTable';
 
-export default index;
+
+// import CardTable from "../../components/UI/Cards/CardTable";
+const index = () => {
+
+
+
+  
+  return (
+      <Provider store={store}>
+      <div >
+  <CardTable endpoint="/hotel" type="hotel"  />
+      </div>
+    </Provider>
+  )
+}
+
+export default index
