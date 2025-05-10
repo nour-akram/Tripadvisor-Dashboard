@@ -3,8 +3,19 @@ import { deleteCard } from '../../../redux/features/cards/cardSlice';
 import { FaCheckCircle, FaTimesCircle, FaEdit, FaTrash } from 'react-icons/fa';
 import './CardRow.css';
 
-export default function CardRow({ card }) {
+export default function CardRow({ card,endpoint ,handleEdit}) {
   const dispatch = useDispatch();
+
+  const handleDelete = () => {
+    if (!endpoint) {
+      console.error('Endpoint is missing');
+      return;
+    }
+
+    dispatch(deleteCard({ id: card.id, endpoint }));
+  };
+
+  
 
   return (
     <div className="card-row-container border rounded-3 shadow-sm mb-3">
@@ -45,10 +56,10 @@ export default function CardRow({ card }) {
 
         {/* Action buttons */}
         <div className="card-cell actions-cell">
-          <button className="action-button edit">
+          <button className="action-button edit" onClick={() => handleEdit(card)} >
             <FaEdit />
           </button>
-          <button className="action-button delete" onClick={() => dispatch(deleteCard(card.id))}>
+          <button className="action-button delete" onClick={handleDelete}>
             <FaTrash />
           </button>
         </div>
@@ -56,3 +67,9 @@ export default function CardRow({ card }) {
     </div>
   );
 }
+
+
+
+
+
+

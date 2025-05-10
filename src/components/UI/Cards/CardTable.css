@@ -1,0 +1,43 @@
+.slide-modal-right .modal-content {
+  height: 100%;
+  border-radius: 0;
+  background-color: #fff;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem 1.5rem;
+  overflow-y: auto;
+}
+
+
+
+
+
+
+
+
+
+.slide-in-modal.modal {
+  display: block !important;
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  overflow: hidden;
+  z-index: 1050;
+}
+
+.slide-in-modal .modal-dialog {
+  position: absolute;
+  top: 0;
+  right: -100%; 
+  height: 100%;
+  margin: 0;
+  transition: right 0.6s ease-in-out;
+}
+
+.slide-in-modal.show .modal-dialog {
+  right: 60px; 
+}
+
+.modal-backdrop.show {
+  opacity: 0.3;
+}
