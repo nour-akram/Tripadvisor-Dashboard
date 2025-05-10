@@ -1,3 +1,10 @@
+/* header.sticky-top {
+  top: 0;
+  z-index: 100000 !important;
+  position: sticky !important; 
+  background-color: #e5eaec !important;
+/* } */ 
+
 .bg-custom {
 background-color: #E0E4E7 !important;
 }

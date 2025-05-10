@@ -27,7 +27,7 @@ const Header = () => {
 
   return (
     <>
-      <header className="py-1 pb-0 px-3 bg-transparent position-relative">
+      <header className="py-1 pb-0 px-3 bg-transparent position-relative sticky-top bg-white z-3">
         <Container fluid>
           <Row className="align-items-center justify-content-between">
             <Col

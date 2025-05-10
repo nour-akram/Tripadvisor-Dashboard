@@ -1,0 +1,19 @@
+.location-card {
+    font-size: 0.9rem;
+  }
+  
+  .card-img {
+    object-fit: cover;
+    height: 100%;
+    width: 100%;
+  }
+  
+  .gradient-overlay {
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.7), transparent 60%);
+  }
+  
+  .rating-badge {
+    background-color: rgba(0, 0, 0, 0.7);
+    font-size: 0.8rem;
+  }
+  

@@ -7,6 +7,7 @@ import UserSlider from "../../components/UI/UserSlider";
 import BookingChart from "../../components/UI/BookingChart";
 import DonutChart from "../../components/UI/DonutChart";
 import ReviewSummary from "../../components/UI/ReviewSummary";
+import TopHotelCard from "../../components/UI/TopHotelCard";
 import "./style.css";
 const Index = () => {
   const { data: hotels } = useSelector((state) => state.hotels);
@@ -41,13 +42,46 @@ const Index = () => {
     },
   ];
 
+  const TopHotels = [
+    {
+      image: "/14.jpg",
+      country: "France",
+      name: "Pidia Beach",
+      rating: 4.9,
+    },
+    {
+      image: "/14.jpg",
+      country: "Italy",
+      name: "Amalfi Coast",
+      rating: 4.7,
+    },
+    {
+      image: "/14.jpg",
+      country: "Spain",
+      name: "Costa Brava",
+      rating: 4.8,
+    },
+    {
+      image: "/14.jpg",
+      country: "Greece",
+      name: "Navagio Beach",
+      rating: 5.0,
+    },
+  ];
+
   // console.log("statistics", statistics);
 
   return (
     <Container className="py-0">
       <Row className="g-3">
         {cardsData.map((card, index) => (
-          <Col key={index} xs={12} sm={6} lg={3}>
+          <Col
+            key={index}
+            xs={12}
+            sm={6}
+            lg={3}
+            className={index === 3 ? "pe-0" : ""}
+          >
             <DashboardCard
               title={card.title}
               count={card.count}
@@ -62,7 +96,7 @@ const Index = () => {
         <Col xs={12} lg={4}>
           <CalendarComponent />
         </Col>
-        <Col xs={12} lg={8} className="d-flex flex-column gap-2">
+        <Col xs={12} lg={8} className="d-flex flex-column gap-2 p-0">
           <UserSlider users={users} />
           <Row className="align-items-start mt-2 mt-lg-0 gap-0">
             <Col xs={12} md={8}>
@@ -77,7 +111,21 @@ const Index = () => {
 
       <Row className="mt-3">
         <Col xs={12} md={6} lg={4}>
-          <ReviewSummary/>
+          <ReviewSummary />
+        </Col>
+        <Col xs={12} lg={8} className="d-flex flex-column gap-2 bg-light p-3 rounded-4 shadow-sm">
+          <h1 className="m-0 fw-semibold fs-6 ms-1 mb-2">Top Rate Hotels</h1>
+          <div className="d-flex gap-2 ">
+            {TopHotels.map((hotel, index) => (
+              <TopHotelCard
+                key={index}
+                image={hotel.image}
+                country={hotel.country}
+                name={hotel.name}
+                rating={hotel.rating}
+              />
+            ))}
+          </div>
         </Col>
       </Row>
     </Container>
