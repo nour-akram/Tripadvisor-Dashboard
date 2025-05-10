@@ -113,7 +113,7 @@ const Index = () => {
         <Col xs={12} md={6} lg={4}>
           <ReviewSummary />
         </Col>
-        <Col xs={12} lg={8} className="d-flex flex-column gap-2 bg-light p-3 rounded-4 shadow-sm">
+        <Col xs={12} lg={8} className="d-flex flex-column gap-2 bg-light p-2 rounded-4 shadow-sm">
           <h1 className="m-0 fw-semibold fs-6 ms-1 mb-2">Top Rate Hotels</h1>
           <div className="d-flex gap-2 ">
             {TopHotels.map((hotel, index) => (

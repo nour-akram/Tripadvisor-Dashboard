@@ -33,7 +33,7 @@ const Index = ({ users }) => {
   return (
     <div
       className="border-0 bg-light p-3 rounded-4 w-100 px-4 shadow-sm  mt-3 mt-lg-0"
-      style={{ maxWidth: "700px", margin: "auto" }}
+    
     >
       <p className="m-0 mb-2 fs-6 fw-semibold">Users</p>
 
