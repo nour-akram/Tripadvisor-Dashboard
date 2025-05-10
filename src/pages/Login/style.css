@@ -1,0 +1,7 @@
+input,input:focus{
+    box-shadow: none !important;
+    /* border-color: "#dee2e6" !important; */
+}
+input:focus{
+    border-color: #dee2e6 !important;
+}

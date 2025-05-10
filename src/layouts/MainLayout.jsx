@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import  { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 import { Container, Row, Col } from "react-bootstrap";
 import Header from "../components/Header";
@@ -8,6 +8,8 @@ import { fetchHotels } from "../redux/features/hotels/HotelSlice";
 import { fetchRestaurants } from "../redux/features/restaurants/restaurantSlice";
 import { fetchAttractions } from "../redux/features/attractions/attractionSlice";
 import { fetchFlights } from "../redux/features/Flights/flightSlice";
+import { fetchUsers, fetchUserStatistics } from "../redux/features/users/UserSlice";
+import { getAdminProfile } from "../redux/features/admin/adminSlice";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -17,6 +19,9 @@ const Index = () => {
     dispatch(fetchRestaurants());
     dispatch(fetchAttractions());
     dispatch(fetchFlights());
+    dispatch(fetchUsers())
+    dispatch(fetchUserStatistics())
+    dispatch(getAdminProfile());
   }, [dispatch]);
 
   return (
