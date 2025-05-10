@@ -1,6 +1,6 @@
 import api from "../../../services/api";
 
 export const getHotels = async () => {
-  const res = await api.get("/hotel");
+  const res = await api.get("/hotels");
   return res.data;
 };

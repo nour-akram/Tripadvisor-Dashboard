@@ -12,24 +12,31 @@ import Reviews from "../pages/Reviews";
 import Settings from "../pages/Settings";
 import Logout from "../pages/Logout";
 import NotFound from "../pages/NotFound";
-
+import Login from "../pages/Login";
+import RequireAuth from "../components/RequireAuth";
 export const router = createBrowserRouter([
-{
-    path: "/",
-    element: <MainLayout />,
+  {
+    element: <RequireAuth />,
     children: [
-    { path: "/", element: <Dashboard /> },
-    { path: "/hotels", element: <Hotels /> },
-    { path: "/restaurants", element: <Restaurants /> },
-    { path: "/flights", element: <Flights /> },
-    { path: "/trips", element: <Trips /> },
-    { path: "/destinations", element: <Destinations /> },
-    { path: "/users", element: <Users /> },
-    { path: "/bookings", element: <Bookings /> },
-    { path: "/reviews", element: <Reviews /> },
-    { path: "/settings", element: <Settings /> },
-    { path: "/logout", element: <Logout /> },
+      {
+        path: "/",
+        element: <MainLayout />,
+        children: [
+          { path: "/", element: <Dashboard /> },
+          { path: "/hotels", element: <Hotels /> },
+          { path: "/restaurants", element: <Restaurants /> },
+          { path: "/flights", element: <Flights /> },
+          { path: "/trips", element: <Trips /> },
+          { path: "/destinations", element: <Destinations /> },
+          { path: "/users", element: <Users /> },
+          { path: "/bookings", element: <Bookings /> },
+          { path: "/reviews", element: <Reviews /> },
+          { path: "/settings", element: <Settings /> },
+          { path: "/logout", element: <Logout /> },
+        ],
+      },
     ],
-},
-{ path: "*", element: <NotFound /> },
+  },
+  { path: "*", element: <NotFound /> },
+  { path: "/login", element: <Login /> },
 ]);

@@ -1,15 +1,16 @@
-// Header.js
-import React, { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Container, Row, Col, Form, InputGroup, Image } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
-import Sidebar from "../Sidebar"; // make sure path is correct
+import Sidebar from "../Sidebar";
 import "./style.css";
+import { useSelector } from "react-redux";
 
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
-
-  // Close sidebar when clicking outside
+  const { profile } = useSelector((state) => state.admin);
+  console.log("profile", profile);
+  
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -24,7 +25,6 @@ const Header = () => {
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  
   return (
     <>
       <header className="py-1 pb-0 px-3 bg-transparent position-relative">
@@ -79,15 +79,21 @@ const Header = () => {
                   height={20}
                 />
               </div>
-              <div className="d-flex align-items-center bg-light rounded-pill p-2 py-1">
+              <div className="d-flex align-items-center bg-light rounded-pill p-2 py-1 position-relative">
                 <Image
-                  src="/avatar.svg"
+                  src={profile?.image || "/avatar.svg"}
                   alt="Avatar"
                   width={30}
                   height={30}
                   roundedCircle
                 />
-                <span className="ms-2 d-none d-md-flex">Nour Akram</span>
+                {/* Show green dot if status is "active" */}
+                {profile?.status === "active" && (
+                  <span className="active-dot"></span>
+                )}
+                <span className="ms-2 d-none d-md-flex">
+                  {profile?.firstName} {profile?.lastName}
+                </span>
               </div>
             </Col>
 
