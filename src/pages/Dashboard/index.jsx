@@ -64,11 +64,11 @@ const Index = () => {
         </Col>
         <Col xs={12} lg={8} className="d-flex flex-column gap-2">
           <UserSlider users={users} />
-          <Row className="align-items-start mt-2 mt-lg-0">
+          <Row className="align-items-start mt-2 mt-lg-0 gap-0">
             <Col xs={12} md={8}>
               <BookingChart />
             </Col>
-            <Col xs={12} md={4} className="p-md-0 mt-3 mt-md-0">
+            <Col xs={12} md={4} className=" mt-3 mt-md-0 ">
               <DonutChart statistics={statistics} />
             </Col>
           </Row>

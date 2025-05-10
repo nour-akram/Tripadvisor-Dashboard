@@ -33,7 +33,7 @@ const Header = () => {
             <Col
               xs={8}
               lg={6}
-              className="d-flex align-items-center mb-2 mb-md-0 gap-2  justify-content-between justify-content-md-start"
+              className="d-flex align-items-center mb-2 mb-md-0   justify-content-between p-lg-0 pe-lg-5"
             >
               <div
                 className="d-md-none menu-btn"
