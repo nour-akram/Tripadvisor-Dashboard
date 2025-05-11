@@ -21,8 +21,9 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <MainLayout />,
+        exact: true,
         children: [
-          { path: "/", element: <Dashboard /> },
+          { path: "/", element: <Dashboard /> ,exact: true },
           { path: "/hotels", element: <Hotels /> },
           { path: "/restaurants", element: <Restaurants /> },
           { path: "/flights", element: <Flights /> },

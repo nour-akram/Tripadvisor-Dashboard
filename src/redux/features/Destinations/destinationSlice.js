@@ -1,11 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../../services/api";
 
-export const fetchRestaurants = createAsyncThunk(
-  "restaurants/fetchRestaurants",
+
+export const fetchDestinations = createAsyncThunk(
+  "destinations/fetchDestinations",
   async (_, thunkAPI) => {
     try {
-      const response = await api.get("/resturants");
+      const response = await api.get("/destination"); 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -13,8 +14,9 @@ export const fetchRestaurants = createAsyncThunk(
   }
 );
 
-const restaurantSlice = createSlice({
-  name: "restaurants",
+
+const destinationSlice = createSlice({
+  name: "destinations",
   initialState: {
     data: [],
     loading: false,
@@ -23,19 +25,19 @@ const restaurantSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      .addCase(fetchRestaurants.pending, (state) => {
+      .addCase(fetchDestinations.pending, (state) => {
         state.loading = true;
         state.error = null;
       })
-      .addCase(fetchRestaurants.fulfilled, (state, action) => {
+      .addCase(fetchDestinations.fulfilled, (state, action) => {
         state.loading = false;
         state.data = action.payload;
       })
-      .addCase(fetchRestaurants.rejected, (state, action) => {
+      .addCase(fetchDestinations.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload;
       });
   },
 });
 
-export default restaurantSlice.reducer;
+export default destinationSlice.reducer;

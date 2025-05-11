@@ -35,12 +35,19 @@
   padding-left: 12px;
   font-weight: 500;
   color: #333;
+  display: inline-block;
+  max-width: 150px; /* adjust width as needed */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  vertical-align: middle;
 }
 
 .rate-cell {
   color: #00d084;
   font-weight: 600;
 }
+
 
 .rate-dots {
   margin-left: 6px;

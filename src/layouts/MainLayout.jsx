@@ -10,6 +10,7 @@ import { fetchAttractions } from "../redux/features/attractions/attractionSlice"
 import { fetchFlights } from "../redux/features/Flights/flightSlice";
 import { fetchUsers, fetchUserStatistics } from "../redux/features/users/UserSlice";
 import { getAdminProfile } from "../redux/features/admin/adminSlice";
+import { fetchDestinations } from "../redux/features/Destinations/destinationSlice";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ const Index = () => {
     dispatch(fetchUsers())
     dispatch(fetchUserStatistics())
     dispatch(getAdminProfile());
+    dispatch(fetchDestinations())
   }, [dispatch]);
 
   return (

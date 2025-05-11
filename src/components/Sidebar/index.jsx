@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "./style.css";
 
 import {
@@ -16,7 +15,9 @@ import { MdOutlineTravelExplore, MdOutlineRateReview } from "react-icons/md";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
 const Index = ({ onItemClick }) => {
   const navigate = useNavigate();
-  const [activeItem, setActiveItem] = useState("Dashboard");
+  const location = useLocation();
+
+  // const [activeItem, setActiveItem] = useState("Dashboard");
 
   const sidebarItems = [
     { name: "Dashboard", icon: LuLayoutDashboard, route: "/" },
@@ -33,7 +34,6 @@ const Index = ({ onItemClick }) => {
   ];
 
   const handleItemClick = (item) => {
-    setActiveItem(item.name);
     navigate(item.route);
     if (onItemClick) {
       console.log("Sidebar closed");
@@ -46,7 +46,7 @@ const Index = ({ onItemClick }) => {
       <ul className="sidebar-menu list-unstyled bg-transparent">
         {sidebarItems.map((item, index) => {
           const Icon = item.icon;
-          const isActive = activeItem === item.name;
+          const isActive = location.pathname === item.route;
 
           return (
             <li

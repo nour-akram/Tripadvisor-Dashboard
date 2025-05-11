@@ -1,4 +1,3 @@
-import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
 import DashboardCard from "../../components/UI/DashboardCard";
 import { useSelector } from "react-redux";
