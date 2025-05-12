@@ -4,7 +4,7 @@ import { Container, Row, Col } from "react-bootstrap";
 import Header from "../components/Header";
 import Sidebar from "../components/Sidebar";
 import { useDispatch } from "react-redux";
-import { fetchHotels } from "../redux/features/hotels/HotelSlice";
+import { fetchHotels, fetchTopHotels } from "../redux/features/hotels/HotelSlice";
 import { fetchRestaurants } from "../redux/features/restaurants/restaurantSlice";
 import { fetchAttractions } from "../redux/features/attractions/attractionSlice";
 import { fetchFlights } from "../redux/features/Flights/flightSlice";
@@ -24,6 +24,7 @@ const Index = () => {
     dispatch(fetchUserStatistics())
     dispatch(getAdminProfile());
     dispatch(fetchDestinations())
+    dispatch(fetchTopHotels())
   }, [dispatch]);
 
   return (
