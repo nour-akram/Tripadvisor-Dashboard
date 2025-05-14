@@ -14,9 +14,7 @@
     height: 80px;
     object-fit: cover;
 }
-/* .active{
-    background-color: #00aa6c;
-} */
+
 
 .bio {
     min-height: 40px;
@@ -33,4 +31,20 @@
 .view-btn:hover{
     background-color: #00aa6c;
     color: white;
+}
+
+
+.user-image-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
+.status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid #fff;
 }
