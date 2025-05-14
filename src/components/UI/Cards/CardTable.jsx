@@ -1,189 +1,143 @@
-import { useSelector } from "react-redux";
-import { useState } from "react";
 import { Button } from "react-bootstrap";
-// import api from "../../../services/api";
 import { MdTune } from "react-icons/md";
-import CardRow from "./CardRow";
-import CardFormModal from "./CardFormModal";
 import Loader from "../Loader";
-export default function CardTable({ type }) {
- const isHotel = type === "hotel";
+import RestaurantFormModal from "./ModelForm/RestaurantFormModal";
+import HotelFormModal from "./ModelForm/HotelFormModel";
+import CardRow from "./CardRow";
+import { useRestaurantHandlers } from "./Handler/useRestaurantHandlers";
+import { useHotelHandlers } from "./Handler/useHotelHandlers";
 
+export default function CardTable({ type }) {
   const {
-    data: hotels,
-    status: hotelStatus,
-    error: hotelError,
-  } = useSelector((state) => state.hotels);
-  const {
-    data: restaurants,
+    restaurants,
+    destinations: restaurantDestinations,
+    formData: restaurantFormData,
+    showModal: showRestaurantModal,
+    handleShow: handleShowRestaurant,
+    handleClose: handleCloseRestaurant,
+    handleChange: handleChangeRestaurant,
+    handleSubmit: handleSubmitRestaurant,
+    setFormData: setRestaurantFormData,
+    handleDelete: handleDeleteRestaurant,
+    handleEditSubmit: handleEditSubmitRestaurant,
     status: restaurantStatus,
     error: restaurantError,
-  } = useSelector((state) => state.restaurants);
+  } = useRestaurantHandlers();
 
-  const { data: destinations } = useSelector((state) => state.destinations)
-  console.log("Destinations:", destinations);
-  
+  const {
+    hotels,
+    formData: hotelFormData,
+    showModal: showHotelModal,
+    handleShow: handleShowHotel,
+    handleClose: handleCloseHotel,
+    handleChange: handleChangeHotel,
+    handleSubmit: handleSubmitHotel,
+    handleEditSubmit: handleEditSubmitHotel,
+    handleDelete: handleDeleteHotel,
+    setFormData: setHotelFormData,
+    status: hotelStatus,
+    error: hotelError,
+  } = useHotelHandlers();
 
+  const isRestaurant = type === "restaurant";
+  const isHotel = type === "hotel";
 
+  if ((isRestaurant && restaurantStatus === "loading") || (isHotel && hotelStatus === "loading")) {
+    return <Loader />;
+  }
 
-  const cards = isHotel ? hotels : restaurants;
-  const status = isHotel ? hotelStatus : restaurantStatus;
-  const error = isHotel ? hotelError : restaurantError;
+  if ((isRestaurant && restaurantStatus === "failed") || (isHotel && hotelStatus === "failed")) {
+    return <div>Error: {isRestaurant ? restaurantError : hotelError}</div>;
+  }
 
-  console.log("Cards:", cards);
-
-  // const [destinations, _] = useState([]);
-  const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    address: "",
-    description: "",
-    location: "",
-    languagesSpoken: "",
-    images: "",
-    pricePerNight: "",
-    emailHotel: "",
-    contactHotel: "",
-    hotelStyle: "",
-    cancellationDeadline: "",
-    destinationId: "",
-    amenities: "",
-    hotelClass: "",
-    destination: "",
-    cuisines: "",
-    mealTypes: "",
-    specialDiets: "",
-    menu: "",
-  });
-
-  const handleShow = () => setShowModal(true);
-  const handleClose = () => setShowModal(false);
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
-  };
-
-  const handleEdit = (card) => {
-    setFormData({
-      name: card.name || "",
-      address: card.address || "",
-      description: card.description || "",
-      location: card.location?.coordinates?.join(", ") || "",
-      languagesSpoken: card.languagesSpoken?.join(", ") || "",
-      images: card.images?.join(", ") || "",
-      pricePerNight: card.pricePerNight || "",
-      hotelStyle: card.hotelStyle?.join(", ") || "",
-      destinationId: card.destinationId || "",
-      amenities: card.amenities?.join(", ") || "",
-      hotelClass: card.hotelClass || "",
-      destination: card.destination || "",
-      cuisines: card.cuisines?.join(", ") || "",
-      mealTypes: card.mealTypes?.join(", ") || "",
-      specialDiets: card.specialDiets?.join(", ") || "",
-      menu:
-        card.menu
-          ?.map((item) => `${item.name} | ${item.price} | ${item.description}`)
-          .join("; ") || "",
-    });
-
-    handleShow();
-  };
-
-  if (status === "loading") return <Loader />;
-  if (status === "failed") return <div>Error: {error}</div>;
-  if (!Array.isArray(cards)) return <div>No cards available.</div>;
+const data = isRestaurant ? restaurants : hotels;
 
   return (
     <div className="table-container px-3">
       <div className="table-header d-flex justify-content-between align-items-center mb-2">
         <h2 className="table-title fs-5 fw-semibold text-gray-800 m-0">
-          {type === "hotel" ? "Hotels" : "Restaurants"}
+          {isRestaurant ? "Restaurants" : "Hotels"}
         </h2>
-        <div className="d-flex justify-content-end align-items-center mb-2 ">
-          <button
-            style={{
-              display: "flex",
-              alignItems: "center",
-              backgroundColor: "#E0E4E7",
-              borderRadius: "999px",
-              padding: "5px 15px",
-              marginRight: "6px",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "14px",
-              color: "#000",
-              fontWeight: 500,
-            }}
-          >
-            <div
-              style={{
-                backgroundColor: "#ffffff",
-                padding: "6px",
-                borderRadius: "50%",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                marginRight: "10px",
-              }}
-            >
-              <MdTune style={{ fontSize: "16px", color: "#000" }} />
+        <Button
+          variant="primary"
+          onClick={isRestaurant ? handleShowRestaurant : handleShowHotel}
+          style={{
+            borderRadius: "50%",
+            width: "40px",
+            height: "40px",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            backgroundColor: "#fff",
+            color: "#000",
+            fontSize: "1.5rem",
+            border: "1px solid #fff",
+          }}
+        >
+          +
+        </Button>
+      </div>
+
+      {/* Table Section */}
+       <div className="table-container px-3">
+         <div className="table-header bg-gray-100 text-gray-700 text-sm d-flex justify-content-between align-items-center p-3 rounded">
+           <div className="table-cell fs-6">Name</div>
+           <div className="table-cell fs-6">Destination</div>
+           <div className="table-cell fs-6">Rate</div>
+           <div className="table-cell fs-6">Date</div>
+           <div className="table-cell fs-6">Action</div>
+         </div>
+
+        <div className="table-body text-gray-600 mt-3">
+          {data.map((card) => (
+            <div key={card._id}>
+              <CardRow
+                card={card}
+                handleEdit={() => {
+                  if (isRestaurant) {
+                   setRestaurantFormData(card);
+                    handleShowRestaurant();
+                  } else {
+                 
+                         setHotelFormData(card);
+                    handleShowHotel();
+                   
+                  }
+                }}
+                handleDelete={isRestaurant ? handleDeleteRestaurant : handleDeleteHotel}
+              />
             </div>
-            Filter
-          </button>
-          <Button
-            variant="primary"
-            onClick={handleShow}
-            style={{
-              borderRadius: "50%",
-              width: "40px",
-              height: "40px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              backgroundColor: "#fff",
-              color: "#000",
-              fontSize: "1.5rem",
-              border: "1px solid #fff",
-            }}
-          >
-            +
-          </Button>
-        </div>
-      </div>
-      <div className="table-header bg-gray-100 text-gray-700 text-sm">
-        <div className="table-row border-b  ">
-          <div className="table-cell fs-6   d-flex justify-content-start">
-            Name
-          </div>
-          <div className="table-cell fs-6 ">Destination</div>
-          <div className="table-cell fs-6 ">Rate</div>
-          <div className="table-cell fs-6">
-            {type === "resturant" ? "Date" : "Price per Night"}
-          </div>
-          <div className="table-cell fs-6">Action</div>
+          ))}
         </div>
       </div>
 
-      <div className="table-body text-gray-600">
-        {cards.map((card) => (
-          <CardRow
-            key={card._id}
-            card={card}
-            type={type}
-            handleEdit={handleEdit}
-          />
-        ))}
-      </div>
+      {/* Modals */}
+      {isRestaurant && (
+        <RestaurantFormModal
+          showModal={showRestaurantModal}
+          handleClose={handleCloseRestaurant}
+          handleChange={handleChangeRestaurant}
+          formData={restaurantFormData}
+          handleSubmit={handleSubmitRestaurant}
+          handleEditSubmit={handleEditSubmitRestaurant}
+          destinations={restaurantDestinations}
+          setFormData={setRestaurantFormData}
+        />
+      )}
 
-      <CardFormModal
-        showModal={showModal}
-        handleClose={handleClose}
-        handleChange={handleChange}
-        formData={formData}
-        destinations={destinations}
-        type={type}
-      />
+      {isHotel && (
+        <HotelFormModal
+          showModal={showHotelModal}
+          handleClose={handleCloseHotel}
+          handleChange={handleChangeHotel}
+          formData={hotelFormData}
+          handleSubmit={handleSubmitHotel}
+          handleEditSubmit={handleEditSubmitHotel}
+          destinations={restaurantDestinations}
+          setFormData={setHotelFormData}
+         
+        />
+      )}
     </div>
   );
 }
