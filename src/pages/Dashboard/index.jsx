@@ -123,7 +123,7 @@ const Index = () => {
             {topHotels.map((hotel, index) => (
               <TopHotelCard
                 key={index}
-                image={hotel.images[0]}
+                image={hotel.hotelImages[0]}
                 country={hotel.destinationId.country}
                 name={hotel.name}
                 rating={hotel.averageRating}
