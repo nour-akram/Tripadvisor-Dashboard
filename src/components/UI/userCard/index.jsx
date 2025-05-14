@@ -20,7 +20,7 @@ const Index = ({ user }) => {
       <h5 className="fw-semibold mb-1">
         {user.firstName && user.lastName
           ? `${user.firstName} ${user.lastName}`
-          : user.username}{" "}
+          : user.name}{" "}
       </h5>
       <p className="text-muted small">@{user.username}</p>
       <p className="text-muted small mb-2 bio">

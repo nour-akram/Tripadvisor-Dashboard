@@ -1,7 +1,7 @@
 .profile-card {
     border: 1px solid #eaeaea;
     transition: all 0.3s ease-in-out;
-    min-height: 380px;
+    height: 380px;
 }
 
 .profile-card:hover {
