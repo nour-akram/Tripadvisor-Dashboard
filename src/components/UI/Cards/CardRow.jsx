@@ -1,69 +1,58 @@
+import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import "./CardRow.css";
-
-export default function CardRow({ card, handleEdit, type }) {
-  const handleDelete = () => {};
+import './CardRow.css';
+const CardRow = ({ card, handleEdit, handleDelete}) => {
+  const image = card.images?.restaurantImages?.[0] || "https://via.placeholder.com/100";
+  const name = card.name || "N/A";
+  const rating = card.rank || 4;
+  const date = new Date(card.updatedAt).toLocaleDateString();
 
   return (
-    <div className="card-row-container border-0 rounded-2 shadow-sm mb-3">
+ <div className="card-row-container border-0 rounded-2 shadow-sm mb-3">
       <div className="card-row">
-        {/* Name */}
+        {/* Name and Image */}
         <div className="card-cell name-cell">
           <img
-            src={
-              type === "restaurant"
-                ? card.images?.restaurantImages[0]
-                : card.images[0]
-            }
-            alt={card.name}
-            className="card-image border-0"
+            src={image}
+            alt={name}
+            className="card-image"
           />
-          <span className="card-name text-truncate">{card.name}</span>
+          <span className="card-name">{name}</span>
         </div>
 
         {/* Destination */}
-        <div className="card-cell">
-          {card.destination || card.destinationId.name}
-        </div>
+        <div className="card-cell">{card.destination || "N/A"}</div>
 
-        {/* Rate */}
+        {/* Rating */}
         <div className="card-cell rate-cell">
           <span className="rate-dots">
-            {type === "restaurant" ? (
-              [...Array(card.rank)].map((_, index) => (
-                <span key={index} className="filled-dot">
-                  ●
-                </span>
-              ))
-            ) : (
-              <span>{card.averageRating}</span>
-            )}
+            {[...Array(rating)].map((_, index) => (
+              <span key={index} className="filled-dot">●</span>
+            ))}
           </span>
         </div>
 
-        {type === "restaurant" ? (
-          /* Date */
-          <div className="card-cell">
-            {new Date(card.updatedAt).toLocaleDateString()}
-          </div>
-        ) : (
-          // "price per night"
-          <div className="card-cell">{card.pricePerNight} $</div>
-        )}
+        {/* Date */}
+        <div className="card-cell">{date}</div>
 
-        {/* Action buttons */}
+        {/* Actions */}
         <div className="card-cell actions-cell">
           <button
-            className="action-button edit"
             onClick={() => handleEdit(card)}
+            className="action-button edit"
           >
             <FaEdit />
           </button>
-          <button className="action-button delete" onClick={handleDelete}>
+          <button
+onClick={() => handleDelete(card._id)}
+            className="action-button delete"
+          >
             <FaTrash />
           </button>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default CardRow;
