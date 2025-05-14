@@ -1,0 +1,36 @@
+.profile-card {
+    border: 1px solid #eaeaea;
+    transition: all 0.3s ease-in-out;
+    min-height: 380px;
+}
+
+.profile-card:hover {
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+    transform: translateY(-4px);
+}
+
+.avatar {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+}
+/* .active{
+    background-color: #00aa6c;
+} */
+
+.bio {
+    min-height: 40px;
+}
+
+.badge{
+    background-color: #00aa6c;
+}
+.view-btn{
+    color: rgb(0, 0, 0);
+    /* background-color: #00aa6c; */
+    border: 1px solid #00aa6c;
+}
+.view-btn:hover{
+    background-color: #00aa6c;
+    color: white;
+}
