@@ -52,7 +52,7 @@ const Index = ({ statistics }) => {
         borderRadius: 3,
       }}
     >
-      <Box sx={{ width: 120, height: 180 }}>
+      <Box sx={{ width: 120, height: 190 }}>
         <Doughnut data={data} options={options} />
       </Box>
 

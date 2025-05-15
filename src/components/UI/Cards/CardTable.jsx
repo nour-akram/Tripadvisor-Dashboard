@@ -42,15 +42,21 @@ export default function CardTable({ type }) {
   const isRestaurant = type === "restaurant";
   const isHotel = type === "hotel";
 
-  if ((isRestaurant && restaurantStatus === "loading") || (isHotel && hotelStatus === "loading")) {
+  if (
+    (isRestaurant && restaurantStatus === "loading") ||
+    (isHotel && hotelStatus === "loading")
+  ) {
     return <Loader />;
   }
 
-  if ((isRestaurant && restaurantStatus === "failed") || (isHotel && hotelStatus === "failed")) {
+  if (
+    (isRestaurant && restaurantStatus === "failed") ||
+    (isHotel && hotelStatus === "failed")
+  ) {
     return <div>Error: {isRestaurant ? restaurantError : hotelError}</div>;
   }
 
-const data = isRestaurant ? restaurants : hotels;
+  const data = isRestaurant ? restaurants : hotels;
 
   return (
     <div className="table-container px-3">
@@ -79,32 +85,33 @@ const data = isRestaurant ? restaurants : hotels;
       </div>
 
       {/* Table Section */}
-       <div className="table-container px-3">
-         <div className="table-header bg-gray-100 text-gray-700 text-sm d-flex justify-content-between align-items-center p-3 rounded">
-           <div className="table-cell fs-6">Name</div>
-           <div className="table-cell fs-6">Destination</div>
-           <div className="table-cell fs-6">Rate</div>
-           <div className="table-cell fs-6">Date</div>
-           <div className="table-cell fs-6">Action</div>
-         </div>
+      <div className="table-container px-3">
+        <div className="table-header bg-gray-100 text-gray-700 text-sm d-flex justify-content-between align-items-center p-3 rounded">
+          <div className="table-cell fs-6">Name</div>
+          <div className="table-cell fs-6">Destination</div>
+          <div className="table-cell fs-6">Rate</div>
+          <div className="table-cell fs-6">Date</div>
+          <div className="table-cell fs-6">Action</div>
+        </div>
 
         <div className="table-body text-gray-600 mt-3">
           {data.map((card) => (
             <div key={card._id}>
               <CardRow
                 card={card}
+                type={type}
                 handleEdit={() => {
                   if (isRestaurant) {
-                   setRestaurantFormData(card);
+                    setRestaurantFormData(card);
                     handleShowRestaurant();
                   } else {
-                 
-                         setHotelFormData(card);
+                    setHotelFormData(card);
                     handleShowHotel();
-                   
                   }
                 }}
-                handleDelete={isRestaurant ? handleDeleteRestaurant : handleDeleteHotel}
+                handleDelete={
+                  isRestaurant ? handleDeleteRestaurant : handleDeleteHotel
+                }
               />
             </div>
           ))}
@@ -135,7 +142,6 @@ const data = isRestaurant ? restaurants : hotels;
           handleEditSubmit={handleEditSubmitHotel}
           destinations={restaurantDestinations}
           setFormData={setHotelFormData}
-         
         />
       )}
     </div>

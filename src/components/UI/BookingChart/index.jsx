@@ -49,7 +49,7 @@ const chartOptions = {
 
 const MonthlyBookingChart = () => {
   return (
-    <Card className="shadow-sm rounded-4 p-2">
+    <Card className="shadow-sm rounded-4 p-2 py-3">
       <CardContent>
         <Typography variant="h6" gutterBottom className="fw-semibold fs-6 mb-3">
           Booking Statistics

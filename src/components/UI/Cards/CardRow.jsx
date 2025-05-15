@@ -1,22 +1,20 @@
-import React from "react";
 import { FaEdit, FaTrash } from "react-icons/fa";
-import './CardRow.css';
-const CardRow = ({ card, handleEdit, handleDelete}) => {
-  const image = card.images?.restaurantImages?.[0] || "https://via.placeholder.com/100";
-  const name = card.name || "N/A";
+import "./CardRow.css";
+const CardRow = ({ card, handleEdit, handleDelete, type }) => {
+
+  
+  const image =
+    type === "hotel" ? card.images[0] : card.images?.restaurantImages?.[0];
+  const name = card.name ;
   const rating = card.rank || 4;
   const date = new Date(card.updatedAt).toLocaleDateString();
 
   return (
- <div className="card-row-container border-0 rounded-2 shadow-sm mb-3">
+    <div className="card-row-container border-0 rounded-2 shadow-sm mb-3">
       <div className="card-row">
         {/* Name and Image */}
         <div className="card-cell name-cell">
-          <img
-            src={image}
-            alt={name}
-            className="card-image"
-          />
+          <img src={image} alt={name} className="card-image" />
           <span className="card-name">{name}</span>
         </div>
 
@@ -27,7 +25,9 @@ const CardRow = ({ card, handleEdit, handleDelete}) => {
         <div className="card-cell rate-cell">
           <span className="rate-dots">
             {[...Array(rating)].map((_, index) => (
-              <span key={index} className="filled-dot">●</span>
+              <span key={index} className="filled-dot">
+                ●
+              </span>
             ))}
           </span>
         </div>
@@ -44,7 +44,7 @@ const CardRow = ({ card, handleEdit, handleDelete}) => {
             <FaEdit />
           </button>
           <button
-onClick={() => handleDelete(card._id)}
+            onClick={() => handleDelete(card._id)}
             className="action-button delete"
           >
             <FaTrash />

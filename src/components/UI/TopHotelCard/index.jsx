@@ -4,7 +4,7 @@ import "./style.css";
 
 const Index = ({ image, country, name, rating }) => {
   return (
-    <Card className="location-card text-white position-relative overflow-hidden border-0 rounded-4">
+    <Card className="location-card text-white position-relative overflow-hidden border-0 rounded-4 w-100 mt-3 mt-lg-0">
       <div className="image-wrapper">
         <Card.Img src={image} alt={name} className="card-img img-fluid" />
       </div>
