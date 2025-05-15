@@ -5,7 +5,7 @@ import CalendarComponent from "../../components/UI/Calender";
 import UserSlider from "../../components/UI/UserSlider";
 import BookingChart from "../../components/UI/BookingChart";
 import DonutChart from "../../components/UI/DonutChart";
-import ReviewSummary from "../../components/UI/ReviewSummary";
+// import ReviewSummary from "../../components/UI/ReviewSummary";
 import TopHotelCard from "../../components/UI/TopHotelCard";
 import "./style.css";
 const Index = () => {
