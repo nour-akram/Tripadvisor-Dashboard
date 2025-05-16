@@ -1,0 +1,114 @@
+import React, { useState, useEffect } from "react";
+import "./DestinationForm.css";
+
+const DestinationForm = ({ onClose, onSubmit, initialData = null }) => {
+  const [form, setForm] = useState({
+    name: "",
+    region: "",
+    country: "",
+    description: "",
+    bestTimeToVisit: "",
+    attractions: "",
+    activities: "",
+    images: null,
+  });
+
+  useEffect(() => {
+    if (initialData) {
+      setForm({
+        ...initialData,
+        attractions: initialData.attractions?.join(", ") || "",
+        activities: initialData.activities?.join(", ") || "",
+        images: null,
+      });
+    }
+  }, [initialData]);
+
+  const handleChange = (e) => {
+    const { name, value, files } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: files ? files : value,
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = new FormData();
+    Object.entries(form).forEach(([key, value]) => {
+      if (key === "images" && value) {
+        for (const file of value) formData.append("images", file);
+      } else if (["attractions", "activities"].includes(key)) {
+        formData.append(
+          key,
+          value.split(",").map((v) => v.trim())
+        );
+      } else {
+        formData.append(key, value);
+      }
+    });
+    onSubmit(formData, initialData?._id);
+  };
+
+  return (
+    <div className="form-drawer">
+      <div className="form-header">
+        <h4>{initialData ? "Edit Destination" : "Add Destination"}</h4>
+        <button className="btn-close" onClick={onClose} aria-label="Close">
+          &times;
+        </button>
+      </div>
+      <form onSubmit={handleSubmit} className="form-body">
+        <input
+          name="name"
+          value={form.name}
+          onChange={handleChange}
+          placeholder="Name"
+          required
+        />
+        <input
+          name="region"
+          value={form.region}
+          onChange={handleChange}
+          placeholder="Region"
+        />
+        <input
+          name="country"
+          value={form.country}
+          onChange={handleChange}
+          placeholder="Country"
+        />
+        <textarea
+          name="description"
+          value={form.description}
+          onChange={handleChange}
+          placeholder="Description"
+        />
+        <input
+          name="bestTimeToVisit"
+          value={form.bestTimeToVisit}
+          onChange={handleChange}
+          placeholder="Best Time to Visit"
+        />
+        <input
+          name="attractions"
+          value={form.attractions}
+          onChange={handleChange}
+          placeholder="Attractions (comma separated)"
+        />
+        <input
+          name="activities"
+          value={form.activities}
+          onChange={handleChange}
+          placeholder="Activities (comma separated)"
+        />
+        <input name="images" type="file" multiple onChange={handleChange} />
+        <button type="submit" className="btn btn-primary mt-3 w-100">
+          Save
+        </button>
+      </form>
+    </div>
+  );
+};
+
+export default DestinationForm;

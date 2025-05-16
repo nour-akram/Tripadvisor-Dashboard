@@ -24,7 +24,7 @@ const Index = ({ onItemClick }) => {
     { name: "Hotels", icon: FaBed, route: "/hotels" },
     { name: "Restaurants", icon: IoRestaurantSharp, route: "/restaurants" },
     { name: "Flights", icon: LuPlane, route: "/flights" },
-    { name: "Trips", icon: MdOutlineTravelExplore, route: "/trips" },
+    { name: "Attractions", icon: MdOutlineTravelExplore, route: "/attractions" },
     { name: "Destinations", icon: LuMapPin, route: "/destinations" },
     { name: "Users", icon: LuUser, route: "/users" },
     { name: "Bookings", icon: FaMoneyCheckDollar, route: "/bookings" },
