@@ -35,21 +35,27 @@ const DestinationForm = ({ onClose, onSubmit, initialData = null }) => {
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
+
     Object.entries(form).forEach(([key, value]) => {
       if (key === "images" && value) {
-        for (const file of value) formData.append("images", file);
+        for (const file of value) {
+          formData.append("images", file);
+        }
       } else if (["attractions", "activities"].includes(key)) {
-        formData.append(
-          key,
-          value.split(",").map((v) => v.trim())
-        );
+        const array = value
+          .split(",")
+          .map((v) => v.trim())
+          .filter(Boolean);
+        formData.append(key, JSON.stringify(array));
       } else {
         formData.append(key, value);
       }
     });
+
+    console.log("Submitting form data for ID:", initialData?._id);
     onSubmit(formData, initialData?._id);
   };
-
+  
   return (
     <div className="form-drawer">
       <div className="form-header">

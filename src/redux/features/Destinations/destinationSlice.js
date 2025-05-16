@@ -30,14 +30,19 @@ export const createDestination = createAsyncThunk(
 export const updateDestination = createAsyncThunk(
   "destinations/updateDestination",
   async ({ id, formData }, thunkAPI) => {
+    console.log("Updating destination ID:", id);
     try {
-      const response = await api.put(`/destination/${id}`, formData);
+      const response = await api.patch(`/destination/${id}`, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
       return response.data.destination;
     } catch (error) {
+      console.error("Error updating destination:", error);
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }
 );
+
 
 export const deleteDestination = createAsyncThunk(
   "destinations/deleteDestination",
