@@ -109,7 +109,7 @@ const DestinationForm = ({ onClose, onSubmit, initialData = null }) => {
           placeholder="Activities (comma separated)"
         />
         <input name="images" type="file" multiple onChange={handleChange} />
-        <button type="submit" className="btn btn-primary mt-3 w-100">
+        <button type="submit" className="btn save mt-3 w-100">
           Save
         </button>
       </form>

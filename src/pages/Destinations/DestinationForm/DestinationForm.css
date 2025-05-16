@@ -78,7 +78,7 @@ textarea {
     resize: vertical;
 }
 
-button.btn-primary {
+.save {
     background-color: #00aa6c;
     color: white;
     border: none;
@@ -88,8 +88,9 @@ button.btn-primary {
     transition: background-color 0.2s;
 }
 
-button.btn-primary:hover {
+.save:hover {
     background-color: #007248;
+    color: white;
 }
 
 @media (max-width: 576px) {
