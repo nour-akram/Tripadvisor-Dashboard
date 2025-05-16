@@ -6,6 +6,8 @@ import flightReducer from "./features/Flights/flightSlice";
 import usersReducer from "./features/users/UserSlice";
 import adminReducer from "./features/admin/adminSlice";
 import destinationReducer from "./features/Destinations/destinationSlice";
+import bookingsReducer from "./features/bookings/bookingSlice";
+import reviewsReducer from "./features/reviews/reviewSlice"
 export const store = configureStore({
   reducer: {
     hotels: hotelsReducer,
@@ -15,5 +17,7 @@ export const store = configureStore({
     users: usersReducer,
     admin: adminReducer,
     destinations: destinationReducer,
+    bookings: bookingsReducer,
+    reviews: reviewsReducer,
   },
 });
