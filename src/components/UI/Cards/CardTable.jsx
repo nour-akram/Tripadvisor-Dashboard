@@ -139,6 +139,7 @@ export default function CardTable({ type }) {
 
         <div className="table-body text-gray-600 mt-1">
           {data.map((card) => (
+            
             <div key={card._id}>
               <CardRow
                 card={card}

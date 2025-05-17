@@ -10,10 +10,13 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
       : card.image || card.images?.[0];
 
   const name = card.name || card.title || "Untitled";
-  const destination =
-    card.destination?.name || card.destination || card.location || "—";
 
-  const rating = card.averageRating || card.rating || 0;
+  const destination =
+    typeof card.destination === "object"
+      ? card.destination?.name
+      : card.destination || card.destinationId?.name || card.location || "—";
+
+  const rating = Number(card.averageRating || card.rating || 0);
   const reviews = Number(card.totalReviews || card.reviewsCount || 0);
 
   return (
@@ -31,7 +34,7 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
         <div className="card-cell">{destination}</div>
 
         <div className="card-cell rate-cell">
-          <span className="rate-dots">{rating} ●</span>
+          <span className="rate-dots">{rating.toFixed(1)} ●</span>
         </div>
 
         <div className="card-cell text-success">

@@ -10,6 +10,32 @@ export default function RestaurantFormModal({
   setFormData,
   handleEditSubmit,
 }) {
+  const handleImageUpload = (e, imageCategory) => {
+    const files = Array.from(e.target.files);
+
+    Promise.all(
+      files.map((file) => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result);
+          reader.onerror = reject;
+          reader.readAsDataURL(file);
+        });
+      })
+    ).then((base64Images) => {
+      setFormData((prev) => ({
+        ...prev,
+        images: {
+          ...prev.images,
+          [imageCategory]: [
+            ...(prev.images[imageCategory] || []),
+            ...base64Images,
+          ], // append new images
+        },
+      }));
+    });
+  };
+
   return (
     <Offcanvas
       show={showModal}
@@ -21,16 +47,27 @@ export default function RestaurantFormModal({
       <Offcanvas.Header closeButton>
         <Offcanvas.Title>
           {formData._id ? "Edit Restaurant" : "Add Restaurant"}
-        </Offcanvas.Title>{" "}
+        </Offcanvas.Title>
       </Offcanvas.Header>
       <Offcanvas.Body>
-           <Form
+        {/* <Form
           onSubmit={(e) => {
             e.preventDefault();
             if (formData._id) {
-              handleEditSubmit(formData._id, formData); 
+              handleEditSubmit(formData._id, formData);
             } else {
-              handleSubmit(e); 
+              handleSubmit(e);
+            }
+          }}
+        > */}
+
+        <Form
+          onSubmit={(e) => {
+            e.preventDefault();
+            if (formData._id) {
+              handleEditSubmit(formData._id, formData);
+            } else {
+              handleSubmit();
             }
           }}
         >
@@ -46,12 +83,35 @@ export default function RestaurantFormModal({
             />
           </Form.Group>
 
-          <Form.Group className="mb-3" controlId="formAddress">
+          {/* Location Fields */}
+          <Form.Group className="mb-3" controlId="formLocationAddress">
             <Form.Label>Address</Form.Label>
             <Form.Control
               type="text"
-              name="address"
-              value={formData.address}
+              name="location.address"
+              value={formData.location?.address || ""}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formLocationCity">
+            <Form.Label>City</Form.Label>
+            <Form.Control
+              type="text"
+              name="location.city"
+              value={formData.location?.city || ""}
+              onChange={handleChange}
+              required
+            />
+          </Form.Group>
+
+          <Form.Group className="mb-3" controlId="formLocationCountry">
+            <Form.Label>Country</Form.Label>
+            <Form.Control
+              type="text"
+              name="location.country"
+              value={formData.location?.country || ""}
               onChange={handleChange}
               required
             />
@@ -121,12 +181,14 @@ export default function RestaurantFormModal({
           <Form.Group className="mb-3" controlId="formHours">
             <Form.Label>Hours</Form.Label>
             <Form.Control
-              type="text"
+              as="textarea"
               name="hours"
-              value={formData.hours}
               onChange={handleChange}
+              rows={7}
+              placeholder={`Monday: 11:00 AM - 3:00 PM, 5:00 PM - 10:00 PM\nTuesday: 11:00 AM - 3:00 PM, 5:00 PM - 10:00 PM\n...`}
             />
           </Form.Group>
+
           <Form.Group className="mb-3" controlId="formRank">
             <Form.Label>Rank</Form.Label>
             <Form.Control
@@ -138,6 +200,20 @@ export default function RestaurantFormModal({
               min="0"
             />
           </Form.Group>
+          <Form.Group className="mb-3" controlId="formRating">
+            <Form.Label>Rating</Form.Label>
+            <Form.Control
+              type="number"
+              name="rating"
+              value={formData.rating || ""}
+              onChange={handleChange}
+              placeholder="Enter rating (0-5)"
+              min="0"
+              max="5"
+              step="0.1"
+            />
+          </Form.Group>
+
           {/* Features */}
           <Form.Group className="mb-3" controlId="formCuisines">
             <Form.Label>Cuisines (comma-separated)</Form.Label>
@@ -169,36 +245,33 @@ export default function RestaurantFormModal({
             />
           </Form.Group>
 
-          {/* Images */}
-          <Form.Group className="mb-3" controlId="formRestaurantImages">
-            <Form.Label>Restaurant Images (comma-separated URLs)</Form.Label>
-            <Form.Control
-              type="text"
-              name="restaurantImages"
-              value={formData.images.restaurantImages.join(", ")}
-              onChange={(e) => handleChange(e, "images.restaurantImages")}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formMenuImages">
-            <Form.Label>Menu Images (comma-separated URLs)</Form.Label>
-            <Form.Control
-              type="text"
-              name="menuImages"
-              value={formData.images.menuImages.join(", ")}
-              onChange={(e) => handleChange(e, "images.menuImages")}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formInteriorImages">
-            <Form.Label>Interior Images (comma-separated URLs)</Form.Label>
-            <Form.Control
-              type="text"
-              name="interiorImages"
-              value={formData.images.interiorImages.join(", ")}
-              onChange={(e) => handleChange(e, "images.interiorImages")}
-            />
-          </Form.Group>
+          {/* Image Uploads */}
+          {Object.keys(formData.images).map((key) => (
+            <Form.Group className="mb-3" controlId={`form-${key}`} key={key}>
+              <Form.Label>{key.replace(/([A-Z])/g, " $1")}</Form.Label>
+              <Form.Control
+                type="file"
+                multiple
+                accept="image/*"
+                onChange={(e) => handleImageUpload(e, key)}
+              />
+              <div className="mt-2 d-flex flex-wrap gap-2">
+                {formData.images[key]?.map((imgUrl, idx) => (
+                  <img
+                    key={idx}
+                    src={imgUrl}
+                    alt=""
+                    style={{
+                      width: "60px",
+                      height: "60px",
+                      objectFit: "cover",
+                      borderRadius: "6px",
+                    }}
+                  />
+                ))}
+              </div>
+            </Form.Group>
+          ))}
 
           {/* Menu Items */}
           <Form.Group className="mb-3" controlId="formMenuItems">

@@ -10,7 +10,7 @@ export const createHotel = createAsyncThunk(
   "hotels/createHotel",
   async (hotelData, thunkAPI) => {
     try {
-      const response = await api.post("/hotels", hotelData); // Ensure this endpoint matches your backend
+      const response = await api.post("/hotels", hotelData); 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -22,7 +22,7 @@ export const editHotel = createAsyncThunk(
   "hotels/editHotel",
   async ({ id, updatedData }, thunkAPI) => {
     try {
-      const response = await api.put(`/hotels/${id}`, updatedData); // Ensure this endpoint matches your backend
+      const response = await api.put(`/hotels/${id}`, updatedData); 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -34,7 +34,7 @@ export const deleteHotel = createAsyncThunk(
   "hotels/deleteHotel",
   async (id, thunkAPI) => {
     try {
-      const response = await api.delete(`/hotels/${id}`); // Ensure this endpoint matches your backend
+      const response = await api.delete(`/hotels/${id}`); 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
