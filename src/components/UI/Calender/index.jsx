@@ -17,7 +17,7 @@ const CalendarBookings = () => {
     (state) => state.bookings
   );
 
-  const bookedDatesSet = new Set(bookedDates); // fast lookup
+  const bookedDatesSet = new Set(bookedDates); 
 
   const renderCell = (date) => {
     const formatted = date.toLocaleDateString("en-CA"); // YYYY-MM-DD

@@ -24,7 +24,7 @@ const MonthlyBookingChart = () => {
   const counts = useSelector((state) => state.bookings.countsByType || []);
   console.log("counts", counts);
 
-  // Map counts into a dictionary for easier access
+  
   const countsMap = counts.reduce((acc, curr) => {
     acc[curr.type] = curr.count;
     return acc;
