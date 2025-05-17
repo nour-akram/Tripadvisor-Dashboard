@@ -1,0 +1,90 @@
+.form-body {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.input-group-inline {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.input-group-inline input,
+.input-group-inline select {
+    flex: 1;
+    min-width: 120px;
+}
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.95rem;
+    color: #333;
+}
+
+select,
+input[type="text"],
+input[type="number"],
+textarea {
+    padding: 0.625rem 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    outline: none;
+    width: 100%;
+    transition: border-color 0.2s;
+}
+
+select:focus,
+input:focus,
+textarea:focus {
+    border-color: #00aa6c;
+}
+
+.text-danger {
+    font-size: 0.85rem;
+    color: #dc3545;
+}
+
+hr.form-divider {
+    border: none;
+    border-top: 1px solid #ddd;
+    margin: 16px 0;
+}
+
+
+.checkbox-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 6px;
+}
+
+.checkbox-group label {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.checkbox-group input[type="checkbox"] {
+    accent-color: #00aa6c;
+    cursor: pointer;
+}
+
+.checkbox-group label:hover {
+    background-color: #e9f9f0;
+    border-color: #00aa6c;
+}
