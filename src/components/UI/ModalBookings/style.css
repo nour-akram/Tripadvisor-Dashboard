@@ -1,0 +1,9 @@
+.modal-body .booking-card {
+    transition: all 0.3s ease;
+  }
+  
+  .modal-body .booking-card:hover {
+    transform: scale(1.01);
+    box-shadow: 0 0 10px rgba(12, 104, 23, 0.2);
+  }
+  

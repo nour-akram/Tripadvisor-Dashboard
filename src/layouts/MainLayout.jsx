@@ -13,6 +13,7 @@ import { getAdminProfile } from "../redux/features/admin/adminSlice";
 import { fetchDestinations } from "../redux/features/Destinations/destinationSlice";
 import { fetchBookedDates, fetchBookings } from "../redux/features/bookings/bookingSlice";
 import { fetchReviews } from "../redux/features/reviews/reviewSlice";
+import { fetchNotifications } from "../redux/features/notifications/notificationSlice";
 
 const Index = () => {
   const dispatch = useDispatch();
@@ -30,6 +31,7 @@ const Index = () => {
     dispatch(fetchBookings());
     dispatch(fetchReviews());
     dispatch(fetchBookedDates());
+    dispatch(fetchNotifications());
   }, [dispatch]);
 
   return (

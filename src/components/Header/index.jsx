@@ -4,8 +4,8 @@ import { Container, Row, Col, Form, InputGroup, Image } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
 import Sidebar from "../Sidebar";
 import "./style.css";
-import { useSelector } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import { fetchNotifications } from "../../redux/features/notifications/notificationSlice";
 
 const socket = io("http://localhost:3000", {
   transports: ["websocket"],
@@ -15,11 +15,29 @@ const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const { profile } = useSelector((state) => state.admin);
-  console.log("profile", profile);
+  // console.log("profile", profile);
 
-  const [notifications, setNotifications] = useState([]);
+  const dispatch = useDispatch();
+  const notifications = useSelector((state) => state.notifications.list);
+
   const [hasNew, setHasNew] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
+  // console.log("notifications", notifications);
+  const audioRef = useRef(null); 
+
+  useEffect(() => {
+    document.addEventListener(
+      "click",
+      () => {
+        if (!audioRef.current) {
+          audioRef.current = new Audio("/notificationSound.wav");
+        }
+      },
+      { once: true }
+    );
+  }, []);
+
+
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -39,24 +57,31 @@ const Header = () => {
     socket.on("connect", () => {
       console.log("🟢 Connected to socket:", socket.id);
     });
-  
+
     socket.on("disconnect", () => {
       console.log("🔴 Socket disconnected");
     });
-  
+
     socket.on("newBooking", (data) => {
       console.log("📨 New booking received:", data);
-      setNotifications((prev) => [data, ...prev]);
       setHasNew(true);
+
+      dispatch(fetchNotifications());
+
+      if (audioRef.current) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play().catch((err) => {
+          console.warn(" Sound failed:", err);
+        });
+      }
     });
-  
+
     return () => {
       socket.off("newBooking");
       socket.off("connect");
       socket.off("disconnect");
     };
-  }, []);
-  
+  }, [dispatch]);
 
   return (
     <>
@@ -138,15 +163,22 @@ const Header = () => {
                   style={{
                     top: "45px",
                     right: 80,
-                    width: "250px",
+                    width: "300px",
                     zIndex: 9999,
+                    maxHeight: "300px",
+                    overflowY: "auto",
                   }}
                 >
                   <h6 className="fw-bold mb-2">Notifications</h6>
                   <ul className="list-unstyled m-0">
-                    {notifications.slice(0, 5).map((note, index) => (
-                      <li key={index} className="mb-2 small text-muted">
-                        {note.message}
+                    {notifications.map((note, index) => (
+                      <li key={index} className="mb-3">
+                        <div className="small text-dark fw-semibold">
+                          {note.message}
+                        </div>
+                        <div className="text-muted small">
+                          {new Date(note.createdAt).toLocaleString()}
+                        </div>
                       </li>
                     ))}
                   </ul>
