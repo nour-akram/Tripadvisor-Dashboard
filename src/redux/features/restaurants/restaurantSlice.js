@@ -14,16 +14,21 @@ export const fetchRestaurants = createAsyncThunk(
 );
 
 export const createRestaurant = createAsyncThunk(
-  "restaurants/createRestaurant",
+  'restaurants/createRestaurant',
   async (formData, thunkAPI) => {
     try {
-      const response = await api.post("/resturants", formData);
+      const response = await api.post('/resturants', formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }
 );
+
 
 export const deleteRestaurant = createAsyncThunk(
   "restaurants/deleteRestaurant",
@@ -41,7 +46,7 @@ export const editRestaurant = createAsyncThunk(
   "restaurants/editRestaurant",
   async ({ id, updatedData }, thunkAPI) => {
     try {
-      const response = await api.put(`/resturants/${id}`, updatedData);
+      const response = await api.patch(`/resturants/${id}`, updatedData);
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -99,6 +104,9 @@ const restaurantSlice = createSlice({
 
       });
   },
+
+
+
 });
 
 export default restaurantSlice.reducer;

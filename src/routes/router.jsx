@@ -4,7 +4,7 @@ import Dashboard from "../pages/Dashboard";
 import Hotels from "../pages/Hotels";
 import Restaurants from "../pages/Restaurants";
 import Flights from "../pages/Flights";
-import Trips from "../pages/Trips";
+import Attractions from "../pages/Attractions";
 import Destinations from "../pages/Destinations";
 import Users from "../pages/Users";
 import Bookings from "../pages/Bookings";
@@ -23,11 +23,11 @@ export const router = createBrowserRouter([
         element: <MainLayout />,
         exact: true,
         children: [
-          { path: "/", element: <Dashboard /> ,exact: true },
+          { path: "/", element: <Dashboard />, exact: true },
           { path: "/hotels", element: <Hotels /> },
           { path: "/restaurants", element: <Restaurants /> },
           { path: "/flights", element: <Flights /> },
-          { path: "/trips", element: <Trips /> },
+          { path: "/attractions", element: <Attractions /> },
           { path: "/destinations", element: <Destinations /> },
           { path: "/users", element: <Users /> },
           { path: "/bookings", element: <Bookings /> },

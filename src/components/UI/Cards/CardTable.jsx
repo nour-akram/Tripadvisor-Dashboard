@@ -1,11 +1,12 @@
 import { Button } from "react-bootstrap";
-// import { MdTune } from "react-icons/md";
 import Loader from "../Loader";
 import RestaurantFormModal from "./ModelForm/RestaurantFormModal";
 import HotelFormModal from "./ModelForm/HotelFormModel";
+import AttractionForm from "./ModelForm/AttractionForm/AttractionForm";
 import CardRow from "./CardRow";
 import { useRestaurantHandlers } from "./Handler/useRestaurantHandlers";
 import { useHotelHandlers } from "./Handler/useHotelHandlers";
+import { useAttractionHandlers } from "./Handler/useAttractionHandlers";
 
 export default function CardTable({ type }) {
   const {
@@ -39,64 +40,96 @@ export default function CardTable({ type }) {
     error: hotelError,
   } = useHotelHandlers();
 
+  const {
+    attractions,
+    formData: attractionFormData,
+    setFormData: setAttractionFormData,
+    showModal: showAttractionModal,
+    handleShow: handleShowAttraction,
+    handleClose: handleCloseAttraction,
+    handleCreate: handleCreateAttraction,
+    handleEditSubmit: handleEditSubmitAttraction,
+    handleDelete: handleDeleteAttraction,
+    status: attractionStatus,
+    error: attractionError,
+  } = useAttractionHandlers();
+
   const isRestaurant = type === "restaurant";
   const isHotel = type === "hotel";
-
-  console.log(hotels, "hotels");
+  const isAttraction = type === "attractions";
 
   if (
     (isRestaurant && restaurantStatus === "loading") ||
-    (isHotel && hotelStatus === "loading")
+    (isHotel && hotelStatus === "loading") ||
+    (isAttraction && attractionStatus === "loading")
   ) {
     return <Loader />;
   }
 
   if (
     (isRestaurant && restaurantStatus === "failed") ||
-    (isHotel && hotelStatus === "failed")
+    (isHotel && hotelStatus === "failed") ||
+    (isAttraction && attractionStatus === "failed")
   ) {
-    return <div>Error: {isRestaurant ? restaurantError : hotelError}</div>;
-  }
+    const rawError = restaurantError || hotelError || attractionError;
+    const errorMessage =
+      typeof rawError === "string"
+        ? rawError
+        : rawError?.message || "Something went wrong";
 
-  const data = isRestaurant ? restaurants : hotels;
+    return <div>Error: {errorMessage}</div>;
+      }
+
+  const data = isRestaurant ? restaurants : isHotel ? hotels : attractions;
 
   const headers = isHotel
     ? ["Name", "Destination", "Average Rating", "Total Reviews", "Action"]
+    : isAttraction
+    ? ["Name", "Location", "Rating", "Reviews", "Action"]
     : ["Name", "Destination", "Rate", "Date", "Action"];
 
   return (
     <div className="table-container p-0 px-2">
       <div className="table-header d-flex justify-content-between align-items-start mb-2">
         <h2 className="table-title fs-5 fw-semibold text-gray-800 m-0">
-          {isRestaurant ? "Restaurants" : "Hotels"}
+          {isRestaurant ? "Restaurants" : isHotel ? "Hotels" : "Attractions"}
         </h2>
-        <Button
-          variant="primary"
-          onClick={isRestaurant ? handleShowRestaurant : handleShowHotel}
-          style={{
-            borderRadius: "50%",
-            width: "40px",
-            height: "40px",
-            display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
-            backgroundColor: "#fff",
-            color: "#000",
-            fontSize: "1.5rem",
-            border: "1px solid #fff",
-          }}
-        >
-          +
-        </Button>
+
+        {(isRestaurant || isHotel || isAttraction) && (
+          <Button
+            variant="primary"
+            onClick={
+              isRestaurant
+                ? handleShowRestaurant
+                : isHotel
+                ? handleShowHotel
+                : handleShowAttraction
+            }
+            style={{
+              borderRadius: "50%",
+              width: "40px",
+              height: "40px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              backgroundColor: "#fff",
+              color: "#000",
+              fontSize: "1.5rem",
+              border: "1px solid #fff",
+            }}
+          >
+            +
+          </Button>
+        )}
       </div>
 
       <div className="table-container p-0">
         <div className="table-header bg-gray-100 text-gray-700 text-sm d-flex justify-content-between align-items-center p-3 px-0 rounded">
           {headers.map((header, idx) => (
             <div
-              className={`table-cell text-small fw-medium
-                ${idx === 0 && " d-flex justify-content-start ms-2 "}
-              `}
+              className={`table-cell text-small fw-medium ${
+                idx === 0 && " d-flex justify-content-start ms-2 "
+              }`}
               key={header}
             >
               {header}
@@ -106,6 +139,7 @@ export default function CardTable({ type }) {
 
         <div className="table-body text-gray-600 mt-1">
           {data.map((card) => (
+            
             <div key={card._id}>
               <CardRow
                 card={card}
@@ -114,13 +148,20 @@ export default function CardTable({ type }) {
                   if (isRestaurant) {
                     setRestaurantFormData(card);
                     handleShowRestaurant();
-                  } else {
+                  } else if (isHotel) {
                     setHotelFormData(card);
                     handleShowHotel();
+                  } else if (isAttraction) {
+                    setAttractionFormData(card);
+                    handleShowAttraction();
                   }
                 }}
                 handleDelete={
-                  isRestaurant ? handleDeleteRestaurant : handleDeleteHotel
+                  isRestaurant
+                    ? handleDeleteRestaurant
+                    : isHotel
+                    ? handleDeleteHotel
+                    : handleDeleteAttraction
                 }
               />
             </div>
@@ -152,6 +193,20 @@ export default function CardTable({ type }) {
           handleEditSubmit={handleEditSubmitHotel}
           destinations={restaurantDestinations}
           setFormData={setHotelFormData}
+        />
+      )}
+
+      {isAttraction && showAttractionModal && (
+        <AttractionForm
+          onClose={handleCloseAttraction}
+          onSubmit={(formData, id) => {
+            if (id) {
+              handleEditSubmitAttraction(formData, id);
+            } else {
+              handleCreateAttraction(formData);
+            }
+          }}
+          initialData={attractionFormData}
         />
       )}
     </div>
