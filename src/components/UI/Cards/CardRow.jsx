@@ -1,13 +1,12 @@
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "./CardRow.css";
-const CardRow = ({ card, handleEdit, handleDelete, type }) => {
 
-  
+const CardRow = ({ card, handleEdit, handleDelete, type }) => {
   const image =
-    type === "hotel" ? card.images[0] : card.images?.restaurantImages?.[0];
-  const name = card.name ;
-  // const rating = card.rank || 4;
-  // const date = new Date(card.updatedAt).toLocaleDateString();
+    type === "hotel"
+      ? card?.images?.[0]
+      : card?.images?.restaurantImages?.[0];
+  const name = card?.name || "Unnamed";
 
   return (
     <div className="card-row-container border-0 rounded-2 shadow-sm mb-3 px-0">
@@ -24,38 +23,39 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
 
         {/* Destination */}
         <div className="card-cell">
-          {card.destination || card.destinationId.name}
+          {card?.destination || card?.destinationId?.name || "N/A"}
         </div>
 
-        {/* Rating */}
-        <div className="card-cell rate-cell">
-          <span className="rate-dots">
-            {/* {[...Array(rating)].map((_, index) => (
-              <span key={index} className="filled-dot">
-                ●
-              </span>
-            ))} */}
-            {card.averageRating} ●
-          </span>
-        </div>
+        {type === "restaurant" ? (
+          <>
+          {/* Rate */}
+    <div className="card-cell rate-cell">
+    <span className="rate-dots">   {card?.rating ?? "N/A"} ●</span>
+    </div>
+            {/* Date */}
+            <div className="card-cell">
+       {card?.createdAt ? new Date(card.createdAt).toLocaleDateString() : "N/A"}            </div>
+          </>
+        ) : (
+          <>
+            {/* Average Rating */}
+            <div className="card-cell rate-cell">
+              <span className="rate-dots">{card?.averageRating ?? "0"} ●</span>
+            </div>
 
-        {/* Date
-        <div className="card-cell">{date}</div> */}
+            {/* Total Reviews */}
+            <div className="card-cell text-success">
+              ({card?.totalReviews ?? 0})
+            </div>
+          </>
+        )}
 
-        {/* total reviews */}
-        <div className="card-cell text-success">({card.totalReviews})</div>
         {/* Actions */}
         <div className="card-cell actions-cell">
-          <button
-            onClick={() => handleEdit(card)}
-            className="action-button edit"
-          >
+          <button onClick={() => handleEdit(card)} className="action-button edit">
             <FaEdit />
           </button>
-          <button
-            onClick={() => handleDelete(card._id)}
-            className="action-button delete"
-          >
+          <button onClick={() => handleDelete(card._id)} className="action-button delete">
             <FaTrash />
           </button>
         </div>
@@ -63,5 +63,4 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
     </div>
   );
 };
-
 export default CardRow;
