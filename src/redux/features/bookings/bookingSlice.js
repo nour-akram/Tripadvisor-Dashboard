@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-import api from "../../../services/api"; 
+import api from "../../../services/api";
 
 export const fetchBookings = createAsyncThunk(
   "bookings/fetchBookings",
@@ -23,7 +23,7 @@ export const fetchBookedDates = createAsyncThunk(
   "bookings/fetchBookedDates",
   async (_, thunkAPI) => {
     try {
-      const token = Cookies.get("admin_token"); 
+      const token = Cookies.get("admin_token");
       const response = await api.get("/bookings/booked-dates", {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -35,8 +35,6 @@ export const fetchBookedDates = createAsyncThunk(
     }
   }
 );
-
-
 
 export const fetchBookingsByDate = createAsyncThunk(
   "bookings/fetchBookingsByDate",
@@ -55,12 +53,25 @@ export const fetchBookingsByDate = createAsyncThunk(
   }
 );
 
+export const fetchBookingCountsByType = createAsyncThunk(
+  "bookings/fetchBookingCountsByType",
+  async (_, thunkAPI) => {
+    try {
+      const response = await api.get("/bookings/counts-by-type");
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const bookingSlice = createSlice({
   name: "bookings",
   initialState: {
     data: [],
     bookedDates: [],
     bookingsByDate: [],
+    countsByType: [],
     status: "idle",
     error: null,
   },
@@ -104,8 +115,20 @@ const bookingSlice = createSlice({
       .addCase(fetchBookingsByDate.rejected, (state, action) => {
         state.status = "failed";
         state.error = action.payload;
+      })
+      // Booking counts by type
+      .addCase(fetchBookingCountsByType.pending, (state) => {
+        state.status = "loading";
+        state.error = null;
+      })
+      .addCase(fetchBookingCountsByType.fulfilled, (state, action) => {
+        state.status = "succeeded";
+        state.countsByType = action.payload;
+      })
+      .addCase(fetchBookingCountsByType.rejected, (state, action) => {
+        state.status = "failed";
+        state.error = action.payload;
       });
-      
   },
 });
 

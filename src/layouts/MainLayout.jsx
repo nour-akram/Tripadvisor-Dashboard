@@ -11,7 +11,7 @@ import { fetchFlights } from "../redux/features/Flights/flightSlice";
 import { fetchUsers, fetchUserStatistics } from "../redux/features/users/UserSlice";
 import { getAdminProfile } from "../redux/features/admin/adminSlice";
 import { fetchDestinations } from "../redux/features/Destinations/destinationSlice";
-import { fetchBookedDates, fetchBookings } from "../redux/features/bookings/bookingSlice";
+import { fetchBookedDates, fetchBookingCountsByType, fetchBookings, fetchBookingsByDate } from "../redux/features/bookings/bookingSlice";
 import { fetchReviews } from "../redux/features/reviews/reviewSlice";
 import { fetchNotifications } from "../redux/features/notifications/notificationSlice";
 
@@ -32,6 +32,8 @@ const Index = () => {
     dispatch(fetchReviews());
     dispatch(fetchBookedDates());
     dispatch(fetchNotifications());
+    dispatch(fetchBookingsByDate());
+    dispatch(fetchBookingCountsByType());
   }, [dispatch]);
 
   return (
