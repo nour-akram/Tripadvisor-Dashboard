@@ -108,7 +108,27 @@ const DestinationForm = ({ onClose, onSubmit, initialData = null }) => {
           onChange={handleChange}
           placeholder="Activities (comma separated)"
         />
-        <input name="images" type="file" multiple onChange={handleChange} />
+        {/* <input name="images" type="file" multiple onChange={handleChange} /> */}
+
+        <div className="custom-file-upload mb-3">
+          <label htmlFor="imageUpload" className="upload-label">
+            Choose Files
+          </label>
+          <input
+            id="imageUpload"
+            name="images"
+            type="file"
+            multiple
+            onChange={handleChange}
+            className="hidden-file-input"
+          />
+          <span className="file-name-preview">
+            {form.images?.length > 0
+              ? `${form.images.length} file(s) selected`
+              : "No file chosen"}
+          </span>
+        </div>
+
         <button type="submit" className="btn save mt-3 w-100">
           Save
         </button>

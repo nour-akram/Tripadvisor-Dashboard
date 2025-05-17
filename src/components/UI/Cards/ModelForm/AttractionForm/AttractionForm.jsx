@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "../../../../../pages/Destinations/DestinationForm/DestinationForm.css";
 import "./AttractionForm.css";
+import { FaTimes } from "react-icons/fa";
 
 const AttractionForm = ({ onClose, onSubmit, initialData = null }) => {
   const [form, setForm] = useState({
@@ -24,6 +25,7 @@ const AttractionForm = ({ onClose, onSubmit, initialData = null }) => {
   });
 
   const [errors, setErrors] = useState({});
+  const [existingImages, setExistingImages] = useState([]);
 
   useEffect(() => {
     if (initialData) {
@@ -41,6 +43,10 @@ const AttractionForm = ({ onClose, onSubmit, initialData = null }) => {
         destination:
           initialData.destination?._id || initialData.destination || "",
       });
+      if (initialData?.images?.length) {
+        setExistingImages(initialData.images);
+      }
+      
     }
   }, [initialData]);
 
@@ -165,9 +171,10 @@ const AttractionForm = ({ onClose, onSubmit, initialData = null }) => {
     formData.append("rating", String(form.averageRating));
     formData.append("reviewsCount", String(form.totalReviews));
 
-    if (initialData?.images?.length > 0) {
-      formData.append("existingImages", JSON.stringify(initialData.images));
+    if (existingImages.length > 0) {
+      formData.append("existingImages", JSON.stringify(existingImages));
     }
+    
 
     for (let [key, value] of formData.entries()) {
       console.log(`${key} =>`, value);
@@ -375,9 +382,46 @@ const AttractionForm = ({ onClose, onSubmit, initialData = null }) => {
           <span className="text-danger small">{errors.totalReviews}</span>
         )}
 
-        <input name="images" type="file" multiple onChange={handleChange} />
+        <div className="custom-file-upload mb-3">
+          <label htmlFor="imageUpload" className="upload-label">
+            Choose Files
+          </label>
+          <input
+            id="imageUpload"
+            name="images"
+            type="file"
+            multiple
+            onChange={handleChange}
+            className="hidden-file-input"
+          />
+          <span className="file-name-preview">
+            {form.images?.length > 0
+              ? `${form.images.length} file(s) selected`
+              : "No file chosen"}
+          </span>
+        </div>
         {errors.images && (
           <span className="text-danger small">{errors.images}</span>
+        )}
+        {existingImages.length > 0 && (
+          <div className="image-preview-list d-flex flex-wrap gap-3 mt-3">
+            {existingImages.map((url, idx) => (
+              <div key={idx} className="image-preview-item position-relative">
+                <img
+                  src={url}
+                  alt={`Image ${idx + 1}`}
+                  className="preview-img rounded border"
+                />
+                <FaTimes
+                  className="delete-icon"
+                  onClick={() => {
+                    const updated = existingImages.filter((_, i) => i !== idx);
+                    setExistingImages(updated);
+                  }}
+                />
+              </div>
+            ))}
+          </div>
         )}
 
         <button type="submit" className="btn save mt-3 w-100">

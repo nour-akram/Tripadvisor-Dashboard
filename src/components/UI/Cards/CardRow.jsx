@@ -20,7 +20,7 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
   const reviews = Number(card.totalReviews || card.reviewsCount || 0);
 
   return (
-    <div className="card-row-container border-0 rounded-2 shadow-sm mb-3 px-0">
+    <div className="card-row-container border-0 rounded-2 shadow-sm mb-3 ">
       <div className="card-row">
         <div className="card-cell name-cell p-0">
           <img

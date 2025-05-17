@@ -99,3 +99,31 @@ textarea {
         padding: 16px;
     }
 }
+
+.custom-file-upload {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 14px;
+}
+
+.upload-label {
+    background-color: #f8f9fa;
+    padding: 8px 14px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.upload-label:hover {
+    background-color: #e2e6ea;
+}
+
+.hidden-file-input {
+    display: none;
+}
+
+.file-name-preview {
+    color: #555;
+}

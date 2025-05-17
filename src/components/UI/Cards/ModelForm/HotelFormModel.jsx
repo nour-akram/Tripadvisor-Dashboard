@@ -77,7 +77,6 @@ export default function HotelFormModal({
               </Form.Group>
             </Col>
             <Col md={6}>
-              {/* Location */}
               <Form.Group className="mb-3" controlId="formLocation">
                 <Form.Label>Location</Form.Label>
                 <Form.Control
