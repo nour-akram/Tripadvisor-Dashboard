@@ -35,7 +35,8 @@
     "react-slick": "^0.30.3",
     "recharts": "^2.15.3",
     "rsuite": "^5.80.2",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "socket.io-client": "^4.8.1"
   },
   "devDependencies": {
     "@eslint/js": "^9.25.0",

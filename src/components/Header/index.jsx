@@ -1,3 +1,4 @@
+import { io } from "socket.io-client";
 import { useState, useRef, useEffect } from "react";
 import { Container, Row, Col, Form, InputGroup, Image } from "react-bootstrap";
 import { FaBars } from "react-icons/fa";
@@ -5,12 +6,21 @@ import Sidebar from "../Sidebar";
 import "./style.css";
 import { useSelector } from "react-redux";
 
+
+const socket = io("http://localhost:3000", {
+  transports: ["websocket"],
+});
+
 const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const { profile } = useSelector((state) => state.admin);
   console.log("profile", profile);
-  
+
+  const [notifications, setNotifications] = useState([]);
+  const [hasNew, setHasNew] = useState(false);
+  const [showDropdown, setShowDropdown] = useState(false);
+
   useEffect(() => {
     const handleClickOutside = (event) => {
       if (
@@ -24,6 +34,29 @@ const Header = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
+
+  useEffect(() => {
+    socket.on("connect", () => {
+      console.log("🟢 Connected to socket:", socket.id);
+    });
+  
+    socket.on("disconnect", () => {
+      console.log("🔴 Socket disconnected");
+    });
+  
+    socket.on("newBooking", (data) => {
+      console.log("📨 New booking received:", data);
+      setNotifications((prev) => [data, ...prev]);
+      setHasNew(true);
+    });
+  
+    return () => {
+      socket.off("newBooking");
+      socket.off("connect");
+      socket.off("disconnect");
+    };
+  }, []);
+  
 
   return (
     <>
@@ -71,14 +104,55 @@ const Header = () => {
               md="auto"
               className="d-flex align-items-center justify-content-end gap-3"
             >
-              <div className="bg-light rounded-circle p-2 d-flex align-items-center justify-content-center">
+              <div
+                className="position-relative bg-light rounded-circle p-2 d-flex align-items-center justify-content-center cursor-pointer"
+                onClick={() => {
+                  setShowDropdown(!showDropdown);
+                  setHasNew(false);
+                }}
+              >
                 <Image
                   src="/icons/notification.svg"
                   alt="notification"
                   width={20}
                   height={20}
                 />
+                {hasNew && (
+                  <span
+                    style={{
+                      position: "absolute",
+                      top: 4,
+                      right: 4,
+                      backgroundColor: "red",
+                      width: 8,
+                      height: 8,
+                      borderRadius: "50%",
+                    }}
+                  />
+                )}
               </div>
+
+              {showDropdown && notifications.length > 0 && (
+                <div
+                  className="position-absolute bg-white shadow-sm rounded p-3"
+                  style={{
+                    top: "45px",
+                    right: 80,
+                    width: "250px",
+                    zIndex: 9999,
+                  }}
+                >
+                  <h6 className="fw-bold mb-2">Notifications</h6>
+                  <ul className="list-unstyled m-0">
+                    {notifications.slice(0, 5).map((note, index) => (
+                      <li key={index} className="mb-2 small text-muted">
+                        {note.message}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+
               <div className="d-flex align-items-center bg-light rounded-pill p-2 py-1 position-relative">
                 <Image
                   src={profile?.image || "/avatar.svg"}
@@ -87,7 +161,6 @@ const Header = () => {
                   height={30}
                   roundedCircle
                 />
-                {/* Show green dot if status is "active" */}
                 {profile?.status === "active" && (
                   <span className="active-dot"></span>
                 )}
