@@ -9,10 +9,11 @@ import {
   LuSettings,
   LuLogOut,
 } from "react-icons/lu";
-import { FaBed } from "react-icons/fa";
+import { FaBed ,FaCamera } from "react-icons/fa";
 import { IoRestaurantSharp } from "react-icons/io5";
-import { MdOutlineTravelExplore, MdOutlineRateReview } from "react-icons/md";
+import {  MdOutlineRateReview } from "react-icons/md";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
+
 const Index = ({ onItemClick, onLogoutClick }) => {
   const navigate = useNavigate();
   const location = useLocation();
@@ -26,7 +27,7 @@ const Index = ({ onItemClick, onLogoutClick }) => {
     { name: "Flights", icon: LuPlane, route: "/flights" },
     {
       name: "Attractions",
-      icon: MdOutlineTravelExplore,
+      icon: FaCamera,
       route: "/attractions",
     },
     { name: "Destinations", icon: LuMapPin, route: "/destinations" },

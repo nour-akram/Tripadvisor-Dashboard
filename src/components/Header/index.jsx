@@ -146,6 +146,7 @@ const Header = () => {
                   alt="notification"
                   width={20}
                   height={20}
+                  style={{cursor:"pointer"}}
                 />
                 {hasNew && (
                   <span
