@@ -1,4 +1,4 @@
-import  {  useState } from "react";
+import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   createDestination,
@@ -8,7 +8,7 @@ import {
 import ProfileCard from "../../components/UI/userCard/index";
 import DestinationForm from "./DestinationForm/DestinationForm";
 import Loader from "../../components/UI/Loader";
- 
+
 const DestinationPage = () => {
   const dispatch = useDispatch();
   const {
@@ -19,8 +19,6 @@ const DestinationPage = () => {
 
   const [showForm, setShowForm] = useState(false);
   const [editData, setEditData] = useState(null);
-
-  
 
   const handleAddClick = () => {
     setEditData(null);
@@ -47,13 +45,15 @@ const DestinationPage = () => {
     setShowForm(false);
   };
 
-   if (loading) return <Loader />;
+  if (loading) return <Loader />;
   if (error) return <div className="text-center text-danger py-5">{error}</div>;
-  
+
   return (
     <div className="container py-0">
       <div className="d-flex align-items-center justify-content-between mb-4">
-        <h2 className="fw-bold mb-0 fs-5">Destinations ({destinations.length})</h2>
+        <h2 className="fw-bold mb-0 fs-5">
+          Destinations ({destinations.length})
+        </h2>
         <button
           className="btn btn-secondary d-flex align-items-center"
           onClick={handleAddClick}
