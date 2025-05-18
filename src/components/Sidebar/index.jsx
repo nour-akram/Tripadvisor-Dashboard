@@ -13,7 +13,7 @@ import { FaBed } from "react-icons/fa";
 import { IoRestaurantSharp } from "react-icons/io5";
 import { MdOutlineTravelExplore, MdOutlineRateReview } from "react-icons/md";
 import { FaMoneyCheckDollar } from "react-icons/fa6";
-const Index = ({ onItemClick }) => {
+const Index = ({ onItemClick, onLogoutClick }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -24,22 +24,29 @@ const Index = ({ onItemClick }) => {
     { name: "Hotels", icon: FaBed, route: "/hotels" },
     { name: "Restaurants", icon: IoRestaurantSharp, route: "/restaurants" },
     { name: "Flights", icon: LuPlane, route: "/flights" },
-    { name: "Attractions", icon: MdOutlineTravelExplore, route: "/attractions" },
+    {
+      name: "Attractions",
+      icon: MdOutlineTravelExplore,
+      route: "/attractions",
+    },
     { name: "Destinations", icon: LuMapPin, route: "/destinations" },
     { name: "Users", icon: LuUser, route: "/users" },
     { name: "Bookings", icon: FaMoneyCheckDollar, route: "/bookings" },
     { name: "Reviews", icon: MdOutlineRateReview, route: "/reviews" },
     { name: "Settings", icon: LuSettings, route: "/settings" },
-    { name: "Logout", icon: LuLogOut, route: "/logout" },
+    { name: "Logout", icon: LuLogOut, route: null },
   ];
 
   const handleItemClick = (item) => {
-    navigate(item.route);
-    if (onItemClick) {
-      console.log("Sidebar closed");
-      onItemClick();
+    if (item.name === "Logout") {
+      if (onLogoutClick) onLogoutClick();
+      return;
     }
+  
+    navigate(item.route);
+    if (onItemClick) onItemClick();
   };
+  
 
   return (
     <div className="sidebar min-vh-100 px-3 py-3 border-top border-3 border-light">
