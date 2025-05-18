@@ -91,28 +91,39 @@ const ProfileCard = ({ user, destination, onEdit, onDelete }) => {
         <img
           src={imageSrc}
           alt={title}
-          className={
+          className={`${
             isUser ? "rounded-circle avatar" : "rounded-4 destination-image"
+          } ${
+            isUser && user.status === "active"
+              ? "border border-3 border-success"
+              : ""
           }
+    ${
+      isUser && user.status !== "active"
+        ? "border border-3 border-secondary"
+        : ""
+    }`.trim()}
           style={
             isDestination
               ? { height: 180, objectFit: "cover", width: "100%" }
               : {}
           }
         />
-        {isUser && user.status === "active" && (
-          <span className="status-dot bg-success"></span>
+        {isUser && (
+          <span
+            className={`status-dot ${
+              user.status === "active" ? "bg-success" : "bg-secondary"
+            }`}
+          ></span>
         )}
       </div>
 
       <h5 className="fw-semibold mb-1">{title}</h5>
-      <p
-        className={`text-muted small mb-2 ${
-          isUser ? "username" : "destination-location"
-        }`}
-      >
-        {subtitle}
-      </p>
+
+      {!isUser && (
+        <p className="text-muted small mb-2 destination-location">{subtitle}</p>
+      )}
+
       <p
         className={`text-muted small mb-3 ${
           isUser ? "bio" : "destination-description"
@@ -146,10 +157,6 @@ const ProfileCard = ({ user, destination, onEdit, onDelete }) => {
           ? `Joined: ${new Date(user.createdAt).toLocaleDateString()}`
           : `Created: ${new Date(destination?.createdAt).toLocaleDateString()}`}
       </p>
-
-      <a href="#" className="btn view-btn btn-sm w-100 mt-3">
-        {isUser ? "View Profile" : "View Destination"}
-      </a>
     </div>
   );
 };

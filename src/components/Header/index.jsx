@@ -144,8 +144,9 @@ const Header = () => {
                   alt="notification"
                   width={20}
                   height={20}
-                  style={{cursor:"pointer"}}
+                  style={{ cursor: "pointer" }}
                 />
+
                 {hasNew && (
                   <span
                     style={{
@@ -168,15 +169,19 @@ const Header = () => {
                     top: "45px",
                     right: 80,
                     width: "300px",
-                    zIndex: 9999,
                     maxHeight: "300px",
                     overflowY: "auto",
+                    zIndex: 1000,
+                    border: "1px solid #ccc",
                   }}
                 >
                   <h6 className="fw-bold mb-2">Notifications</h6>
                   <ul className="list-unstyled m-0">
                     {notifications.map((note, index) => (
-                      <li key={index} className="mb-3">
+                      <li
+                        key={index}
+                        className=" py-2 border-bottom border-1 border-secondary"
+                      >
                         <div className="small text-dark fw-semibold">
                           {note.message}
                         </div>
