@@ -138,9 +138,9 @@ export default function CardTable({ type }) {
         </div>
 
         <div className="table-body text-gray-600 mt-1">
-          {data.map((card) => (
+          {data.map((card,index) => (
             
-            <div key={card._id}>
+            <div key={card._id ?? index}>
               <CardRow
                 card={card}
                 type={type}

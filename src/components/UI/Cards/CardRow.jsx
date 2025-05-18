@@ -19,6 +19,10 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
   const rating = Number(card.averageRating || card.rating || 0);
   const reviews = Number(card.totalReviews || card.reviewsCount || 0);
 
+
+// console.log("CardRow image:", image);
+
+
   return (
     <div className="card-row-container border-0 rounded-2 shadow-sm mb-3 ">
       <div className="card-row">

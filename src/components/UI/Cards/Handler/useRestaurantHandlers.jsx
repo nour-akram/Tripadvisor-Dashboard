@@ -251,6 +251,11 @@ Object.entries(formData.imageFiles).forEach(([key, files]) => {
     }
   };
 
+
+  
+   
+  
+
   return {
     restaurants,
     destinations,
