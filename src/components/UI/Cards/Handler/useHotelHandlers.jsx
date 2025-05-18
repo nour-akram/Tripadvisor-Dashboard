@@ -12,37 +12,48 @@ export function useHotelHandlers() {
   const { data: destinations = [] } = useSelector(
     (state) => state.destinations
   );
+
   const initialFormData = {
     name: "",
     address: "",
     description: "",
     longDescription: "",
-    languagesSpoken: [],
-    images: [],
-    pricePerNight: 0,
+    languagesSpoken: [], 
+  images:[],
+     pricePerNight: 0,
     emailHotel: "",
     contactHotel: "",
     HotelLink: "",
     award: "",
-    location: { type: "Point", coordinates: [0, 0] },
-    isAvaliable: true,
+    hotelClass: "",
+    location: {
+      type: "Point",
+      coordinates: [0, 0],
+    },
+    latitude: 0,
+    longitude: 0,
     hotelStyle: [],
-    cancellationDeadline: null,
+    isAvaliable: true,
+    cancellationDeadline: null, 
+
     rooms: [
       {
-        type: "Single",
-        maxAdults: 1,
-        maxChildren: 0,
+        roomNumber: "",
+        floorNumber: 1, 
+        type: "Single", 
+        description: "",
+        maxAdults: 1, 
+        maxChildren: 0, 
         bookedDates: [],
+        roomSize: "", 
+        bedType: "", 
       },
     ],
-    amenities: [],
-    groupedAmenities: {
-      propertyAmenities: [],
-      roomFeatures: [],
-      roomTypes: [],
-    },
+
+    amenities: [], 
     destinationId: "",
+
+    sumRating: 0,
     totalReviews: 0,
     averageRating: 0,
     ranking: {
@@ -58,6 +69,7 @@ export function useHotelHandlers() {
       "Sleep Quality": 0,
     },
   };
+
   const [formData, setFormData] = useState(initialFormData);
   const [showModal, setShowModal] = useState(false);
 
@@ -68,49 +80,80 @@ export function useHotelHandlers() {
   };
 
   const handleChange = (e, field) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
 
     if (
       field === "languagesSpoken" ||
       field === "amenities" ||
-      field === "images" ||
       field === "hotelStyle"
     ) {
       setFormData((prev) => ({
         ...prev,
         [field]: value.split(",").map((item) => item.trim()),
       }));
-    } else if (name.includes(".")) {
+      return;
+    }
+
+    if (name.includes(".")) {
       const [parent, child] = name.split(".");
       setFormData((prev) => ({
         ...prev,
         [parent]: {
           ...prev[parent],
-          [child]: isNaN(value) ? value : parseFloat(value), // Parse numbers
+          [child]: isNaN(value) ? value : parseFloat(value),
         },
       }));
-    } else {
-      setFormData((prev) => ({
-        ...prev,
-        [name]: value,
-      }));
-    }
-  };
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    console.log("Submitting formData:", formData);
-
-    const filteredImages = (formData.images || []).filter(
-      (url) => !url.startsWith("blob:")
-    );
-    if (!filteredImages.length) {
-      alert("At least one valid image URL is required.");
       return;
     }
 
-    const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
+    if (type === "checkbox") {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: checked,
+      }));
+      return;
+    }
 
+    if (
+      !isNaN(value) &&
+      (name === "pricePerNight" || name === "latitude" || name === "longitude")
+    ) {
+      setFormData((prev) => ({
+        ...prev,
+        [name]: parseFloat(value),
+      }));
+      return;
+    }
+if (name === "averageRating") {
+  setFormData((prev) => ({
+    ...prev,
+    [name]: parseFloat(value) || 0,
+  }));
+  return;
+}
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+const allImages = Array.isArray(formData.images) ? formData.images : [];
+console.log("All images before filtering:", allImages);
+
+const filteredImages = allImages.filter(
+  (url) => url && typeof url === "string" && !url.startsWith("blob:")
+);
+
+console.log("Filtered images:", filteredImages);
+
+if (!filteredImages.length) {
+  alert("At least one valid image is required.");
+  return;
+}
+
+    const isValidObjectId = (id) => /^[a-fA-F0-9]{24}$/.test(id);
     if (!isValidObjectId(formData.destinationId)) {
       alert("Invalid destination ID.");
       return;
@@ -124,33 +167,41 @@ export function useHotelHandlers() {
       return;
     }
 
-    if (!formData.hotelStyle.length) {
+    if (!formData.hotelStyle || !formData.hotelStyle.length) {
       alert("At least one hotel style is required.");
       return;
     }
 
+    const coordinates = formData.location?.coordinates || [0, 0];
+    const normalizedCoordinates = [
+      parseFloat(coordinates[0]),
+      parseFloat(coordinates[1]),
+    ];
+
     const payload = {
-      ...formData,
-      images: filteredImages,
+     ...formData,
+ base64Images: filteredImages,
+
+
       amenities: formData.amenities || [],
-      languagesSpoken: formData.languagesSpoken || [],
-      hotelStyle: formData.hotelStyle || [],
+      languagesSpoken: (formData.languagesSpoken || []).map((lang) =>
+        lang.trim()
+      ),
+      hotelStyle: (formData.hotelStyle || []).map((style) => style.trim()),
       location: {
+        ...formData.location,
         type: "Point",
-        coordinates: formData.location?.coordinates || [0, 0],
-      },
-      groupedAmenities: {
-        propertyAmenities: formData.groupedAmenities?.propertyAmenities || [],
-        roomFeatures: formData.groupedAmenities?.roomFeatures || [],
-        roomTypes: formData.groupedAmenities?.roomTypes || [],
+        coordinates: normalizedCoordinates,
       },
     };
 
-    console.log("Submitting payload:", payload);
-
     try {
+      console.log("Submitting images array length:", filteredImages.length);
+console.log("Sample image data:", filteredImages[0]?.substring(0, 30));
       await dispatch(createHotel(payload)).unwrap();
       handleClose();
+            console.log("Payload images:", payload.images)
+
     } catch (err) {
       console.error("Failed to add hotel: ", err);
       alert("An error occurred while submitting the hotel.");
@@ -163,6 +214,7 @@ export function useHotelHandlers() {
       handleClose();
     } catch (err) {
       console.error("Failed to update hotel:", err);
+      alert("An error occurred while updating the hotel.");
     }
   };
 

@@ -22,7 +22,7 @@ export const editHotel = createAsyncThunk(
   "hotels/editHotel",
   async ({ id, updatedData }, thunkAPI) => {
     try {
-      const response = await api.put(`/hotels/${id}`, updatedData); 
+      const response = await api.patch(`/hotels/${id}`, updatedData); 
       return response.data;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);

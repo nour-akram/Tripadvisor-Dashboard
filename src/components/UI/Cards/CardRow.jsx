@@ -7,6 +7,7 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
       ? card?.images?.[0]
       : card?.images?.restaurantImages?.[0];
   const name = card?.name || "Unnamed";
+// console.log("CardRow image:", image);
 
   return (
     <div className="card-row-container border-0 rounded-2 shadow-sm mb-3 px-0">
