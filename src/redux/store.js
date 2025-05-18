@@ -9,6 +9,7 @@ import destinationReducer from "./features/Destinations/destinationSlice";
 import bookingsReducer from "./features/bookings/bookingSlice";
 import reviewsReducer from "./features/reviews/reviewSlice";
 import notificationReducer from "./features/notifications/notificationSlice"
+import searchReducer from "./features/search/searchSlice"
 export const store = configureStore({
   reducer: {
     hotels: hotelsReducer,
@@ -21,5 +22,6 @@ export const store = configureStore({
     bookings: bookingsReducer,
     reviews: reviewsReducer,
     notifications: notificationReducer,
+    search: searchReducer,
   },
 });

@@ -15,6 +15,7 @@ import { fetchBookedDates, fetchBookingCountsByType, fetchBookings } from "../re
 import { fetchReviews } from "../redux/features/reviews/reviewSlice";
 import { fetchNotifications } from "../redux/features/notifications/notificationSlice";
 import LogoutModal from "../components/UI/LogoutModal";
+import SearchModal from "../components/UI/SearchModal";
 const Index = () => {
   const dispatch = useDispatch();
 
@@ -41,6 +42,7 @@ const Index = () => {
   return (
     <div>
       <Header />
+      <SearchModal/>
       <Container fluid>
         <Row>
           <Col xs={12} md={3} lg={2} className="p-0 d-none d-md-block">

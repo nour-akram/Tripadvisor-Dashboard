@@ -6,6 +6,7 @@ import Sidebar from "../Sidebar";
 import "./style.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchNotifications } from "../../redux/features/notifications/notificationSlice";
+import { fetchSearchResults } from "../../redux/features/search/searchSlice";
 
 const socket = io("http://localhost:3000", {
   transports: ["websocket"],
@@ -86,6 +87,27 @@ const Header = () => {
     };
   }, [dispatch]);
 
+  const [searchQuery, setSearchQuery] = useState("");
+  const handleSearch = (e) => {
+    if (e.key === 'Enter' || e.type === 'click') {
+      const path = location.pathname.split('/')[1]; 
+      console.log("path is", path);
+  
+      const typeMap = {
+        hotels: 'hotel',
+        restaurants: 'restaurant',
+        attractions: 'attractive',
+      };
+  
+      const type = typeMap[path.toLowerCase()] || path.toLowerCase();
+  
+      console.log("type is ", type);
+  
+      dispatch(fetchSearchResults({ type, searchValue: searchQuery }));
+    }
+  };
+
+  
   return (
     <>
       <header className="py-1 pb-0 px-3 bg-transparent position-relative sticky-top bg-white z-3">
@@ -123,6 +145,9 @@ const Header = () => {
                 <Form.Control
                   className="bg-custom border-0 rounded-pill-end shadow-none"
                   placeholder="Search..."
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onKeyDown={handleSearch}
                 />
               </InputGroup>
             </Col>
