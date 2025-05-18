@@ -1,27 +1,19 @@
 import { Modal, Button } from "react-bootstrap";
-// import { useNavigate } from "react-router-dom";
+
 import { IoClose } from "react-icons/io5";
 import Cookies from "js-cookie";
 import { useDispatch } from "react-redux";
 import { adminLogout } from "../../../redux/features/admin/adminSlice";
-// import { useEffect } from "react";
 
 const LogoutModal = ({ onClose }) => {
-    //   const navigate = useNavigate();
     const dispatch = useDispatch();
   const handleLogout = () => {
       Cookies.remove("admin_token");
       dispatch(adminLogout());
-    // navigate("/login", { replace: true });
+   
   };
 
-  // Optional: Also auto-redirect if already no token (protective fallback)
-//   useEffect(() => {
-//     const token = Cookies.get("admin_token");
-//     if (!token) {
-//       navigate("/login", { replace: true });
-//     }
-//   }, [navigate]);
+  
     
   return (
     <Modal show onHide={onClose} centered backdrop="static">
