@@ -10,7 +10,6 @@ import Users from "../pages/Users";
 import Bookings from "../pages/Bookings";
 import Reviews from "../pages/Reviews";
 import Settings from "../pages/Settings";
-import Logout from "../pages/Logout";
 import NotFound from "../pages/NotFound";
 import Login from "../pages/Login";
 import RequireAuth from "../components/RequireAuth";
@@ -37,7 +36,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-  { path: "/logout", element: <Logout /> },
   { path: "*", element: <NotFound /> },
   { path: "/login", element: <Login /> },
 ]);

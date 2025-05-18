@@ -6,15 +6,12 @@ import { useDispatch } from "react-redux";
 import { adminLogout } from "../../../redux/features/admin/adminSlice";
 
 const LogoutModal = ({ onClose }) => {
-    const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const handleLogout = () => {
-      Cookies.remove("admin_token");
-      dispatch(adminLogout());
-   
+    Cookies.remove("admin_token");
+    dispatch(adminLogout());
   };
 
-  
-    
   return (
     <Modal show onHide={onClose} centered backdrop="static">
       <Modal.Body className="text-center py-5">
