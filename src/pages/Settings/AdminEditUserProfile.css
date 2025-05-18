@@ -75,7 +75,10 @@
     z-index: 10;
     transition: background 0.3s;
 }
-
+.text-danger {
+    margin-top: 0.25rem;
+    margin-left: .5rem;
+    font-size: 0.875rem; }
 .edit-icon:hover {
     background: #444;
 }

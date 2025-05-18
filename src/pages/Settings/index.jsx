@@ -23,6 +23,7 @@ const AdminEditUserProfile = () => {
     status: "",
   });
 
+  const [formErrors, setFormErrors] = useState({});
   const [image, setImage] = useState(null);
   const [preview, setPreview] = useState(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -49,6 +50,7 @@ const AdminEditUserProfile = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setForm((prev) => ({ ...prev, [name]: value }));
+    setFormErrors((prev) => ({ ...prev, [name]: "" })); 
   };
 
   const handleImageChange = (e) => {
@@ -63,8 +65,32 @@ const AdminEditUserProfile = () => {
     e.preventDefault();
     if (!profile) return;
 
-    let payload;
+    const errors = {};
+    const requiredFields = ["firstName", "lastName", "username", "email"];
 
+    requiredFields.forEach((field) => {
+      if (!form[field]?.trim()) {
+        errors[field] = `${
+          field.charAt(0).toUpperCase() + field.slice(1)
+        } is required`;
+      }
+    });
+
+    if (form.password) {
+      if (form.password.length < 10) {
+        errors.password = "Password must be at least 10 characters";
+      } else if (!/[!@#$%^&*]/.test(form.password)) {
+        errors.password =
+          "Password must contain at least one special character";
+      }
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setFormErrors(errors);
+      return;
+    }
+
+    let payload;
     if (image) {
       payload = new FormData();
       Object.entries(form).forEach(([key, val]) => {
@@ -84,11 +110,12 @@ const AdminEditUserProfile = () => {
 
     if (editAdminProfile.fulfilled.match(resultAction)) {
       dispatch(getAdminProfile());
-      alert("Profile updated successfully");
+      alert(" Profile updated successfully");
     } else {
-      alert("Failed to update profile");
+      alert(" Failed to update profile");
     }
   };
+  
 
   if (profileLoading || !profile) {
     return (
@@ -99,72 +126,47 @@ const AdminEditUserProfile = () => {
   }
 
   return (
-    <form
-      onSubmit={handleSubmit}
-      className="profile-form  py-4 bg-white shadow "
-    >
+    <form onSubmit={handleSubmit} className="profile-form container">
       <h2 className="text-center mb-4">Edit Profile</h2>
 
-      <div className="row g-4 align-items-start">
+      <div className="row g-4">
         <div className="col-md-2 text-center">
-          <div className="position-relative">
-            <div className="avatar-upload">
-              <label htmlFor="imageUpload">
-                <img src={preview} alt="Avatar" />
-                <input
-                  type="file"
-                  id="imageUpload"
-                  accept="image/*"
-                  onChange={handleImageChange}
-                />
-                <span className="edit-icon">✎</span>
-              </label>
-            </div>
+          <div className="avatar-upload position-relative">
+            <label htmlFor="imageUpload">
+              <img
+                src={preview}
+                alt="Avatar"
+                className="img-fluid rounded-circle"
+              />
+              <input
+                type="file"
+                id="imageUpload"
+                accept="image/*"
+                onChange={handleImageChange}
+              />
+              <span className="edit-icon">✎</span>
+            </label>
           </div>
         </div>
 
         <div className="col-md-10">
           <div className="row g-3">
-            <div className="col-md-6">
-              <input
-                type="text"
-                name="firstName"
-                value={form.firstName}
-                onChange={handleChange}
-                placeholder="First Name"
-                className="form-control"
-              />
-            </div>
-            <div className="col-md-6">
-              <input
-                type="text"
-                name="lastName"
-                value={form.lastName}
-                onChange={handleChange}
-                placeholder="Last Name"
-                className="form-control"
-              />
-            </div>
-            <div className="col-md-6">
-              <input
-                type="text"
-                name="username"
-                value={form.username}
-                onChange={handleChange}
-                placeholder="Username"
-                className="form-control"
-              />
-            </div>
-            <div className="col-md-6">
-              <input
-                type="email"
-                name="email"
-                value={form.email}
-                onChange={handleChange}
-                placeholder="Email"
-                className="form-control"
-              />
-            </div>
+            {["firstName", "lastName", "username", "email"].map((field) => (
+              <div className="col-md-6" key={field}>
+                <input
+                  type={field === "email" ? "email" : "text"}
+                  name={field}
+                  value={form[field]}
+                  onChange={handleChange}
+                  placeholder={field.replace(/([A-Z])/g, " $1")}
+                  className="form-control"
+                />
+                {formErrors[field] && (
+                  <div className="text-danger small">{formErrors[field]}</div>
+                )}
+              </div>
+            ))}
+
             <div className="col-md-6 position-relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -181,7 +183,11 @@ const AdminEditUserProfile = () => {
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
+              {formErrors.password && (
+                <div className="text-danger small">{formErrors.password}</div>
+              )}
             </div>
+
             <div className="col-md-6">
               <input
                 type="text"
@@ -191,6 +197,7 @@ const AdminEditUserProfile = () => {
                 className="form-control"
               />
             </div>
+
             <div className="col-md-6">
               <input
                 type="text"

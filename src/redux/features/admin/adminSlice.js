@@ -111,6 +111,7 @@ const adminSlice = createSlice({
       .addCase(editAdminProfile.rejected, (state, action) => {
         state.editLoading = false;
         state.editError = action.payload;
+
       });
   },
 });
