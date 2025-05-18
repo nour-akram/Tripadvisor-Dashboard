@@ -5,7 +5,7 @@ import {
   updateDestination,
   deleteDestination,
 } from "../../redux/features/Destinations/destinationSlice";
-import ProfileCard from "../../components/UI/userCard/index";
+import ProfileCard from "../../components/UI/userCard";
 import DestinationForm from "./DestinationForm/DestinationForm";
 import Loader from "../../components/UI/Loader";
 

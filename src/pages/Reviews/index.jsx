@@ -10,8 +10,10 @@ const Index = () => {
     error,
   } = useSelector((state) => state.reviews);
 
+  console.log("reviews",reviews)
   if (status === "loading") return <Loader />;
-  if (status === "failed") return <p>Error: {error}</p>;
+  if (status === "failed") return <p>Error: {error?.message || "Something went wrong"}</p>;
+
 
   return (
     <Container fluid className="p-0 px-2">
