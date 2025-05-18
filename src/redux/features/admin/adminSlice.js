@@ -45,6 +45,7 @@ export const editAdminProfile = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
+      console.log("error is ",error)
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }

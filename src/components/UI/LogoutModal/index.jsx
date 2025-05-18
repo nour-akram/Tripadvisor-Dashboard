@@ -16,7 +16,7 @@ const LogoutModal = ({ onClose }) => {
     <Modal show onHide={onClose} centered backdrop="static">
       <Modal.Body className="text-center py-5">
         <button
-          className="btn btn-light rounded-circle position-absolute top-0 end-0 m-3"
+          className="btn btn-light rounded-circle position-absolute top-0 end-0 m-3 bg-transparent border-0"
           onClick={onClose}
         >
           <IoClose size={20} />
