@@ -38,7 +38,7 @@ const AdminEditUserProfile = () => {
         lastName: profile.lastName || "",
         username: profile.username || "",
         email: profile.email || "",
-        password: "", 
+        password: "",
         role: profile.role || "",
         status: profile.status || "",
       });
@@ -86,91 +86,130 @@ const AdminEditUserProfile = () => {
       dispatch(getAdminProfile());
       alert("Profile updated successfully");
     } else {
-      alert(" Failed to update profile");
+      alert("Failed to update profile");
     }
   };
 
   if (profileLoading || !profile) {
     return (
-      <div className="w-full text-center text-gray-500 p-6">
+      <div className="text-center text-secondary py-5">
         Loading user data...
       </div>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit} className="profile-form">
-      <h2>Edit Profile</h2>
+    <form
+      onSubmit={handleSubmit}
+      className="profile-form  py-4 bg-white shadow "
+    >
+      <h2 className="text-center mb-4">Edit Profile</h2>
 
-      <div className="profile-wrapper">
-        <div className="profile-left">
-          <div className="avatar-upload">
-            <label htmlFor="imageUpload">
-              <img src={preview} alt="Avatar" />
-              <input
-                type="file"
-                id="imageUpload"
-                accept="image/*"
-                onChange={handleImageChange}
-              />
-              <span className="edit-icon">✎</span>
-            </label>
+      <div className="row g-4 align-items-start">
+        <div className="col-md-2 text-center">
+          <div className="position-relative">
+            <div className="avatar-upload">
+              <label htmlFor="imageUpload">
+                <img src={preview} alt="Avatar" />
+                <input
+                  type="file"
+                  id="imageUpload"
+                  accept="image/*"
+                  onChange={handleImageChange}
+                />
+                <span className="edit-icon">✎</span>
+              </label>
+            </div>
           </div>
         </div>
 
-        <div className="profile-right">
-          <div className="grid">
-            <input
-              type="text"
-              name="firstName"
-              value={form.firstName}
-              onChange={handleChange}
-              placeholder="First Name"
-            />
-            <input
-              type="text"
-              name="lastName"
-              value={form.lastName}
-              onChange={handleChange}
-              placeholder="Last Name"
-            />
-            <input
-              type="text"
-              name="username"
-              value={form.username}
-              onChange={handleChange}
-              placeholder="Username"
-            />
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              placeholder="Email"
-            />
-            <div className="password-wrapper">
+        <div className="col-md-10">
+          <div className="row g-3">
+            <div className="col-md-6">
+              <input
+                type="text"
+                name="firstName"
+                value={form.firstName}
+                onChange={handleChange}
+                placeholder="First Name"
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-6">
+              <input
+                type="text"
+                name="lastName"
+                value={form.lastName}
+                onChange={handleChange}
+                placeholder="Last Name"
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-6">
+              <input
+                type="text"
+                name="username"
+                value={form.username}
+                onChange={handleChange}
+                placeholder="Username"
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-6">
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                placeholder="Email"
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-6 position-relative">
               <input
                 type={showPassword ? "text" : "password"}
                 name="password"
                 value={form.password}
                 onChange={handleChange}
                 placeholder="Password"
+                className="form-control pe-5"
               />
               <span
-                className="password-toggle"
+                className="position-absolute top-50 end-0 translate-middle-y me-3"
                 onClick={() => setShowPassword((prev) => !prev)}
+                style={{ cursor: "pointer", color: "#666" }}
               >
                 {showPassword ? <FaEyeSlash /> : <FaEye />}
               </span>
             </div>
-            <input type="text" name="role" value={form.role} disabled />
-            <input type="text" name="status" value={form.status} disabled />
+            <div className="col-md-6">
+              <input
+                type="text"
+                name="role"
+                value={form.role}
+                disabled
+                className="form-control"
+              />
+            </div>
+            <div className="col-md-6">
+              <input
+                type="text"
+                name="status"
+                value={form.status}
+                disabled
+                className="form-control"
+              />
+            </div>
           </div>
         </div>
       </div>
 
-      <div className="profile-footer">
-        <button type="submit" disabled={editLoading}>
+      <div className="text-end mt-4">
+        <button
+          type="submit"
+          disabled={editLoading}
+          className="btn btn-dark px-4 py-2"
+        >
           {editLoading ? "Saving..." : "Save"}
         </button>
       </div>
