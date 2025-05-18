@@ -21,14 +21,14 @@ const Header = () => {
       console.log("✅ Admin profile loaded:", profile);
     }
   }, [profile]);
-  
+
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.notifications.list);
 
   const [hasNew, setHasNew] = useState(false);
   const [showDropdown, setShowDropdown] = useState(false);
   // console.log("notifications", notifications);
-  const audioRef = useRef(null); 
+  const audioRef = useRef(null);
 
   useEffect(() => {
     document.addEventListener(
@@ -41,8 +41,6 @@ const Header = () => {
       { once: true }
     );
   }, []);
-
-
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -197,6 +195,7 @@ const Header = () => {
                   width={30}
                   height={30}
                   roundedCircle
+                  className="object-fit-cover"
                 />
                 {profile?.status === "active" && (
                   <span className="active-dot"></span>

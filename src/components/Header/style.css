@@ -3,24 +3,24 @@
   z-index: 100000 !important;
   position: sticky !important; 
   background-color: #e5eaec !important;
-/* } */ 
+/* } */
 
 .bg-custom {
-background-color: #E0E4E7 !important;
+  background-color: #e0e4e7 !important;
 }
 
 .rounded-pill-start {
-border-top-left-radius: 50px !important;
-border-bottom-left-radius: 50px !important;
+  border-top-left-radius: 50px !important;
+  border-bottom-left-radius: 50px !important;
 }
 
 .rounded-pill-end {
-border-top-right-radius: 50px !important;
-border-bottom-right-radius: 50px !important;
+  border-top-right-radius: 50px !important;
+  border-bottom-right-radius: 50px !important;
 }
 
 .search-box input::placeholder {
-color: #6c757d;
+  color: #6c757d;
 }
 
 @media (min-width: 768px) {
@@ -37,7 +37,7 @@ color: #6c757d;
 
 @media (max-width: 767px) {
   .responsive-logo {
-    width: 120px !important; 
+    width: 120px !important;
     margin-top: 10px !important;
     height: 40px !important;
   }
