@@ -8,9 +8,7 @@ export const adminLogin = createAsyncThunk(
     try {
       const response = await api.post("/auth/admin/login", credentials);
       const token = response.data.token;
-
       Cookies.set("admin_token", token, { expires: 7 });
-
       return token;
     } catch (error) {
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
@@ -35,6 +33,23 @@ export const getAdminProfile = createAsyncThunk(
   }
 );
 
+export const editAdminProfile = createAsyncThunk(
+  "admin/editProfile",
+  async ({ userId, formData }, thunkAPI) => {
+    try {
+      const token = Cookies.get("admin_token");
+      const response = await api.put(`/users/${userId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
 const adminSlice = createSlice({
   name: "admin",
   initialState: {
@@ -45,6 +60,8 @@ const adminSlice = createSlice({
     profile: null,
     profileLoading: false,
     profileError: null,
+    editLoading: false,
+    editError: null,
   },
   reducers: {
     adminLogout: (state) => {
@@ -70,7 +87,6 @@ const adminSlice = createSlice({
         state.token = null;
         state.isAuthenticated = false;
       })
-      // admin profile
       .addCase(getAdminProfile.pending, (state) => {
         state.profileLoading = true;
         state.profileError = null;
@@ -82,6 +98,18 @@ const adminSlice = createSlice({
       .addCase(getAdminProfile.rejected, (state, action) => {
         state.profileLoading = false;
         state.profileError = action.payload;
+      })
+      .addCase(editAdminProfile.pending, (state) => {
+        state.editLoading = true;
+        state.editError = null;
+      })
+      .addCase(editAdminProfile.fulfilled, (state, action) => {
+        state.editLoading = false;
+        state.profile = action.payload;
+      })
+      .addCase(editAdminProfile.rejected, (state, action) => {
+        state.editLoading = false;
+        state.editError = action.payload;
       });
   },
 });

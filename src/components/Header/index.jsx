@@ -15,8 +15,13 @@ const Header = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const sidebarRef = useRef(null);
   const { profile } = useSelector((state) => state.admin);
-  // console.log("profile", profile);
-
+  console.log("profile", profile);
+  useEffect(() => {
+    if (profile) {
+      console.log("✅ Admin profile loaded:", profile);
+    }
+  }, [profile]);
+  
   const dispatch = useDispatch();
   const notifications = useSelector((state) => state.notifications.list);
 
