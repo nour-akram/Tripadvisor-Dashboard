@@ -1,95 +1,23 @@
-// import { FaEdit, FaTrash } from "react-icons/fa";
-// import "./CardRow.css";
-
-// const CardRow = ({ card, handleEdit, handleDelete, type }) => {
-//   const image =
-//     type === "hotel"
-//       ? card.images?.[0]
-//       : type === "restaurant"
-//       ? card.images?.restaurantImages?.[0]
-//       : card.image || card.images?.[0];
-
-//   const name = card.name || card.title || "Untitled";
-
-//   const destination =
-//     typeof card.destination === "object"
-//       ? card.destination?.name
-//       : card.destination || card.destinationId?.name || card.location || "—";
-
-//   const rating = Number(card.averageRating || card.rating || 0);
-//   const reviews = Number(card.totalReviews || card.reviewsCount || 0);
-
-
-// // console.log("CardRow image:", image);
-
-
-//   return (
-//     <div className="card-row-container border-0 rounded-2 shadow-sm mb-3 ">
-//       <div className="card-row">
-//         <div className="card-cell name-cell p-0">
-//           <img
-//             src={image}
-//             alt={name}
-//             className="card-image img-fluid rounded-2 border-0"
-//           />
-//           <span className="card-name">{name}</span>
-//         </div>
-
-//         <div className="card-cell">{destination}</div>
-
-//         <div className="card-cell rate-cell">
-//           <span className="rate-dots">{rating.toFixed(1)} ●</span>
-//         </div>
-
-//         <div className="card-cell text-success">
-//           ({reviews.toLocaleString()})
-//         </div>
-
-//         <div className="card-cell actions-cell">
-//           {handleEdit && (
-//             <button
-//               onClick={() => handleEdit(card)}
-//               className="action-button edit"
-//             >
-//               <FaEdit />
-//             </button>
-//           )}
-//           {handleDelete && (
-//             <button
-//               onClick={() => handleDelete(card._id)}
-//               className="action-button delete"
-//             >
-//               <FaTrash />
-//             </button>
-//           )}
-//         </div>
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default CardRow;
 import { FaEdit, FaTrash } from "react-icons/fa";
 import "./CardRow.css";
 
 const CardRow = ({ card, handleEdit, handleDelete, type }) => {
-  // Determine image based on type
   const image =
     type === "hotel"
       ? card.images?.[0]
       : type === "restaurant"
       ? card.images?.restaurantImages?.[0]
-      : type === "attraction"
+      : type === "attractions"
       ? card.image || card.images?.[0]
       : type === "flight"
       ? card.origin?.images?.[0] || "https://via.placeholder.com/100"
       : "https://via.placeholder.com/100";
 
-  // Determine name based on type
   const name =
-    type === "flight" ? card.flightNumber : card.name || card.title || "Untitled";
+    type === "flight"
+      ? card.flightNumber || "N/A"
+      : card.name || card.title || "Untitled";
 
-  // Determine destination or location
   const destination =
     type === "flight"
       ? card.destination?.name || "Unknown"
@@ -97,76 +25,61 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
       ? card.destination?.name
       : card.destination || card.destinationId?.name || card.location || "—";
 
-  // Determine rating and reviews (not applicable for flight)
-  const rating = type !== "flight" ? Number(card.averageRating || card.rating || 0) : null;
-  const reviews = type !== "flight" ? Number(card.totalReviews || card.reviewsCount || 0) : null;
+  const rating =
+    type === "flight" ? null : Number(card.averageRating || card.rating || 0);
 
-  // Flight-specific rendering
-  if (type === "flight") {
-    return (
-      <div className="card-row-container border-0 rounded-2 shadow-sm mb-3 px-0">
-        <div className="card-row">
-          {/* Flight Number and Image */}
-          <div className="card-cell name-cell p-0">
-            <img
-              src={image}
-              alt={card.flightNumber || "Flight"}
-              className="card-image img-fluid rounded-2 border-0"
-            />
-            <span className="card-name">{card.flightNumber || "N/A"}</span>
-          </div>
-          {/* From (Origin) */}
-          <div className="card-cell">{card.origin?.name || "Unknown"}</div>
-          {/* To (Destination) */}
-          <div className="card-cell">{card.destination?.name || "Unknown"}</div>
-          {/* Airline */}
-          <div className="card-cell">{card.airline || "N/A"}</div>
-          {/* Duration */}
-          <div className="card-cell">{card.flightDuration ? `${card.flightDuration} h` : "N/A"}</div>
-          {/* Actions */}
-          <div className="card-cell actions-cell">
-            <button onClick={() => handleEdit(card)} className="action-button edit">
-              <FaEdit />
-            </button>
-            <button onClick={() => handleDelete(card._id)} className="action-button delete">
-              <FaTrash />
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  const reviews =
+    type === "flight"
+      ? null
+      : Number(card.totalReviews || card.reviewsCount || 0);
 
-  // Rendering for restaurant, hotel, and attraction
+  const airline = type === "flight" ? card.airline || "N/A" : null;
+  const duration = type === "flight" ? card.flightDuration || "N/A" : null;
+
   return (
     <div className="card-row-container border-0 rounded-2 shadow-sm mb-3">
-      <div className="card-row">
-        {/* Name and Image */}
-        <div className="card-cell name-cell p-0">
+      <div className="card-row d-flex flex-wrap align-items-center">
+        <div className="card-cell name-cell p-0 d-flex align-items-center col-12 col-md">
           <img
             src={image}
             alt={name}
-            className="card-image img-fluid rounded-2 border-0"
+            className="card-image img-fluid rounded-2 border-0 me-2"
           />
           <span className="card-name">{name}</span>
         </div>
-        {/* Destination/Location */}
-        <div className="card-cell">{destination}</div>
-        {/* Rating */}
-        <div className="card-cell rate-cell">
-          <span className="rate-dots">{rating.toFixed(1)} ●</span>
+
+        <div className="card-cell col-6 col-md text-truncate">
+          {destination}
         </div>
-        {/* Total Reviews */}
-        <div className="card-cell text-success">({reviews.toLocaleString()})</div>
-        {/* Actions */}
-        <div className="card-cell actions-cell">
+
+        <div className="card-cell rate-cell col-6 col-md text-truncate">
+          {type === "flight" ? (
+            airline
+          ) : (
+            <span className="rate-dots">{rating.toFixed(1)} ●</span>
+          )}
+        </div>
+
+        <div className="card-cell text-success col-6 col-md text-truncate">
+          {type === "flight"
+            ? `${duration} h`
+            : `(${reviews.toLocaleString()})`}
+        </div>
+
+        <div className="card-cell actions-cell col-12 col-md-auto d-flex justify-content-start justify-content-md-end mt-2 mt-md-0">
           {handleEdit && (
-            <button onClick={() => handleEdit(card)} className="action-button edit">
+            <button
+              onClick={() => handleEdit(card)}
+              className="action-button edit me-2"
+            >
               <FaEdit />
             </button>
           )}
           {handleDelete && (
-            <button onClick={() => handleDelete(card._id)} className="action-button delete">
+            <button
+              onClick={() => handleDelete(card._id)}
+              className="action-button delete"
+            >
               <FaTrash />
             </button>
           )}
