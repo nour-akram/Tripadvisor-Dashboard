@@ -2,7 +2,7 @@
   transition: box-shadow 0.3s ease;
   cursor: default;
   user-select: none;
-  height: 320px;
+  min-height: 330px;
 }
 
 .profile-card:hover {
