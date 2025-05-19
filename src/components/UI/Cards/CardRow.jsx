@@ -60,12 +60,20 @@ const CardRow = ({ card, handleEdit, handleDelete, type }) => {
           )}
         </div>
 
-        <div className="card-cell text-success col-6 col-md text-truncate">
+        {/* <div className="card-cell text-success col-6 col-md text-truncate">
           {type === "flight"
             ? `${duration} h`
             : `(${reviews.toLocaleString()})`}
+        </div> */}
+<div className="card-cell text-success col-6 col-md text-truncate">
+{type === "flight" ? (
+  `${duration} h`
+) : type === "restaurant" && card.features?.mealTypes?.length ? (
+  `${card.features.mealTypes.join(", ")}`
+) : (
+  `(${reviews?.toLocaleString()})`
+)}
         </div>
-
         <div className="card-cell actions-cell col-12 col-md-auto d-flex justify-content-start justify-content-md-end mt-2 mt-md-0">
           {handleEdit && (
             <button
