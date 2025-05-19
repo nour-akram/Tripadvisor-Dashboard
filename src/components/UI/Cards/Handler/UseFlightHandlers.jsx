@@ -4,7 +4,7 @@ import {
   createFlight,
   deleteFlight,
   editFlight,
-} from "../../../../redux/features/Flights/flightSevice";
+} from "../../../../redux/features/Flights/flightSlice";
 
 export function useFlightHandlers() {
   const dispatch = useDispatch();
