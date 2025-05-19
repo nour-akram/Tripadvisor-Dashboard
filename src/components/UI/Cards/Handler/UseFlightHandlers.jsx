@@ -4,11 +4,15 @@ import {
   createFlight,
   deleteFlight,
   editFlight,
-} from "../../../../redux/features/Flights/flightSlice";
+} from "../../../../redux/features/Flights/flightSevice";
 
 export function useFlightHandlers() {
   const dispatch = useDispatch();
-  const { data: flights, status, error } = useSelector((state) => state.flights);
+  const {
+    data: flights,
+    status,
+    error,
+  } = useSelector((state) => state.flights);
   const { data: destinations = [] } = useSelector(
     (state) => state.destinations
   );
@@ -59,7 +63,7 @@ export function useFlightHandlers() {
     setShowModal(false);
   };
 
-  const handleChange = (e, field) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
 
     const splitFields = [
@@ -102,10 +106,13 @@ export function useFlightHandlers() {
 
     // Find the selected origin and destination objects by name
     const selectedOrigin = destinations.find(
-      (dest) => dest.name === formData.origin.name || dest.name === formData.origin
+      (dest) =>
+        dest.name === formData.origin.name || dest.name === formData.origin
     );
     const selectedDestination = destinations.find(
-      (dest) => dest.name === formData.destination.name || dest.name === formData.destination
+      (dest) =>
+        dest.name === formData.destination.name ||
+        dest.name === formData.destination
     );
 
     if (!selectedOrigin || !selectedDestination) {
