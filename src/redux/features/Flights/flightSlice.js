@@ -54,7 +54,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import api from "../../../services/api";
 import Cookies from "js-cookie";
-import { getFlights } from "./FlightSevice";
+import { getFlights } from "./flightSevice.jsx";
 // Helper function to check token
 const getAuthHeaders = () => {
   const token = Cookies.get("admin_token"); // غيرت من authToken لـ admin_token
