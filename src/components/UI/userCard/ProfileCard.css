@@ -168,3 +168,39 @@
 .btn-ellipsis:hover {
   background: #f0f0f0;
 }
+
+
+
+.user-button,
+.admin-button {
+  border-radius: 20px;
+  font-size: 0.8rem;
+  padding: 5px 14px;
+  min-width: 130px;
+  transition: all 0.2s ease;
+  background-color: #00aa6c;
+  color: white;
+  margin-top: 20px;
+  width: 100%;
+}
+
+.user-button:hover:not(:disabled) {
+  background-color: #00aa6c;
+  color: white;
+}
+
+.user-button:hover{
+  background-color: #00511f;
+  color: white;
+}
+
+.admin-button {
+  color: #6c757d;
+  background-color: #f8f9fa;
+  border-color: #dee2e6;
+}
+
+.admin-button:disabled {
+  opacity: 0.8;
+  cursor: not-allowed;
+}

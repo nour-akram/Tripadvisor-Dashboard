@@ -1,7 +1,14 @@
 import "./ProfileCard.css";
 import { useState } from "react";
 
-const ProfileCard = ({ user, destination, onEdit, onDelete }) => {
+const ProfileCard = ({
+  user,
+  destination,
+  onEdit,
+  onDelete,
+  onMakeAdmin,
+  isPromoting,
+}) => {
   const isUser = user && !destination;
   const isDestination = destination && !user;
 
@@ -24,6 +31,17 @@ const ProfileCard = ({ user, destination, onEdit, onDelete }) => {
   const description = isUser
     ? user.bio || "No bio provided."
     : destination?.description || "No description available.";
+
+  const handleConfirmPromotion = () => {
+    const confirmed = window.confirm(
+      `Are you sure you want to promote ${
+        user.firstName || user.username
+      } to admin?`
+    );
+    if (confirmed) {
+      onMakeAdmin?.(user._id);
+    }
+  };
 
   return (
     <div
@@ -96,13 +114,10 @@ const ProfileCard = ({ user, destination, onEdit, onDelete }) => {
           } ${
             isUser && user.status === "active"
               ? "border border-3 border-success"
+              : isUser
+              ? "border border-3 border-secondary"
               : ""
-          }
-    ${
-      isUser && user.status !== "active"
-        ? "border border-3 border-secondary"
-        : ""
-    }`.trim()}
+          }`}
           style={
             isDestination
               ? { height: 180, objectFit: "cover", width: "100%" }
@@ -132,14 +147,6 @@ const ProfileCard = ({ user, destination, onEdit, onDelete }) => {
         {description}
       </p>
 
-      {isUser && (
-        <div className="d-flex justify-content-center gap-4 small text-muted mb-3 user-stats">
-          <span>{user.trips?.length || 0} trips</span>
-          <span>{user.followers?.counter || 0} followers</span>
-          <span>{user.following?.counter || 0} following</span>
-        </div>
-      )}
-
       {isDestination && (
         <div className="destination-info d-flex justify-content-between text-muted small mb-3 px-3">
           <div>
@@ -152,11 +159,40 @@ const ProfileCard = ({ user, destination, onEdit, onDelete }) => {
         </div>
       )}
 
-      <p className="text-muted small">
-        {isUser
-          ? `Joined: ${new Date(user.createdAt).toLocaleDateString()}`
-          : `Created: ${new Date(destination?.createdAt).toLocaleDateString()}`}
-      </p>
+      {isUser && (
+        <>
+          <div className="d-flex justify-content-center gap-4 small text-muted mb-3 user-stats">
+            <span>{user.trips?.length || 0} trips</span>
+            <span>{user.followers?.counter || 0} followers</span>
+            <span>{user.following?.counter || 0} following</span>
+          </div>
+          <p className="text-muted small">
+            {isUser
+              ? `Joined: ${new Date(user.createdAt).toLocaleDateString()}`
+              : `Created: ${new Date(
+                  destination?.createdAt
+                ).toLocaleDateString()}`}
+          </p>
+          <div className="d-flex justify-content-center">
+            {user.role !== "admin" ? (
+              <button
+                className="btn user-button btn-sm  px-4"
+                onClick={handleConfirmPromotion}
+                disabled={isPromoting}
+              >
+                {isPromoting ? "Promoting..." : "Mark as Admin"}
+              </button>
+            ) : (
+              <button
+                className="btn admin-button btn-sm btn-outline-secondary px-4"
+                disabled
+              >
+                Already Admin
+              </button>
+            )}
+          </div>
+        </>
+      )}
     </div>
   );
 };

@@ -1,12 +1,18 @@
-import {  useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { makeUserAdmin } from "../../redux/features/admin/adminSlice";
 import ProfileCard from "../../components/UI/userCard";
 import Loader from "../../components/UI/Loader";
- 
+
 const UsersPage = () => {
+  const dispatch = useDispatch();
   const { data, loading, error } = useSelector((state) => state.users);
+  const { makeAdminLoading } = useSelector((state) => state.admin);
   const users = data?.users || [];
 
- 
+  const handleMakeAdmin = (userId) => {
+    dispatch(makeUserAdmin(userId));
+  };
+
   if (loading) return <Loader />;
   if (error) return <div className="text-center text-danger py-5">{error}</div>;
 
@@ -16,7 +22,11 @@ const UsersPage = () => {
       <div className="row g-4">
         {users.map((user) => (
           <div key={user._id} className="col-md-6 col-lg-4 col-xl-3">
-            <ProfileCard user={user} />
+            <ProfileCard
+              user={user}
+              onMakeAdmin={handleMakeAdmin}
+              isPromoting={makeAdminLoading}
+            />
           </div>
         ))}
       </div>

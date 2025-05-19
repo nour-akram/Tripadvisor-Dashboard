@@ -21,7 +21,7 @@ export const getAdminProfile = createAsyncThunk(
   async (_, thunkAPI) => {
     try {
       const token = Cookies.get("admin_token");
-      const response = await api.get("/users/", {
+      const response = await api.get("/auth/admin/profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -45,25 +45,49 @@ export const editAdminProfile = createAsyncThunk(
       });
       return response.data;
     } catch (error) {
-      console.log("error is ",error)
       return thunkAPI.rejectWithValue(error.response?.data || error.message);
     }
   }
 );
 
+export const makeUserAdmin = createAsyncThunk(
+  "admin/makeUserAdmin",
+  async (userId, thunkAPI) => {
+    try {
+      const token = Cookies.get("admin_token");
+      const response = await api.put(
+        `/users/${userId}/role`,
+        { role: "admin" },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return response.data; 
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error.response?.data || error.message);
+    }
+  }
+);
+
+const initialState = {
+  token: Cookies.get("admin_token") || null,
+  isAuthenticated: !!Cookies.get("admin_token"),
+  loading: false,
+  error: null,
+  profile: null,
+  profileLoading: false,
+  profileError: null,
+  editLoading: false,
+  editError: null,
+  makeAdminLoading: false,
+  makeAdminError: null,
+};
+
 const adminSlice = createSlice({
   name: "admin",
-  initialState: {
-    token: Cookies.get("admin_token") || null,
-    loading: false,
-    error: null,
-    isAuthenticated: !!Cookies.get("admin_token"),
-    profile: null,
-    profileLoading: false,
-    profileError: null,
-    editLoading: false,
-    editError: null,
-  },
+  initialState,
   reducers: {
     adminLogout: (state) => {
       state.token = null;
@@ -88,6 +112,7 @@ const adminSlice = createSlice({
         state.token = null;
         state.isAuthenticated = false;
       })
+
       .addCase(getAdminProfile.pending, (state) => {
         state.profileLoading = true;
         state.profileError = null;
@@ -100,6 +125,7 @@ const adminSlice = createSlice({
         state.profileLoading = false;
         state.profileError = action.payload;
       })
+
       .addCase(editAdminProfile.pending, (state) => {
         state.editLoading = true;
         state.editError = null;
@@ -111,7 +137,18 @@ const adminSlice = createSlice({
       .addCase(editAdminProfile.rejected, (state, action) => {
         state.editLoading = false;
         state.editError = action.payload;
+      })
 
+      .addCase(makeUserAdmin.pending, (state) => {
+        state.makeAdminLoading = true;
+        state.makeAdminError = null;
+      })
+      .addCase(makeUserAdmin.fulfilled, (state) => {
+        state.makeAdminLoading = false;
+      })
+      .addCase(makeUserAdmin.rejected, (state, action) => {
+        state.makeAdminLoading = false;
+        state.makeAdminError = action.payload;
       });
   },
 });
