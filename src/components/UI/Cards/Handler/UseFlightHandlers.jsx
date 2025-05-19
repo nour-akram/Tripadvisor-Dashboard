@@ -4,6 +4,7 @@ import {
   createFlight,
   deleteFlight,
   editFlight,
+  fetchFlights,
 } from "../../../../redux/features/Flights/flightSlice";
 
 export function useFlightHandlers() {
@@ -131,6 +132,7 @@ export function useFlightHandlers() {
     try {
       await dispatch(createFlight(payload)).unwrap();
       handleClose();
+      dispatch(fetchFlights());
     } catch (err) {
       console.error("Failed to add flight: ", err);
       alert("An error occurred while submitting the flight: " + err.message);
@@ -141,6 +143,7 @@ export function useFlightHandlers() {
     try {
       await dispatch(editFlight({ id, updatedData })).unwrap();
       handleClose();
+      dispatch(fetchFlights());
     } catch (err) {
       console.error("Failed to update flight:", err);
     }
@@ -149,6 +152,7 @@ export function useFlightHandlers() {
   const handleDelete = async (id) => {
     try {
       await dispatch(deleteFlight(id)).unwrap();
+      dispatch(fetchFlights());
     } catch (err) {
       console.error("Failed to delete flight:", err);
     }
