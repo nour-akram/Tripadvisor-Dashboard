@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { makeUserAdmin } from "../../redux/features/admin/adminSlice";
 import ProfileCard from "../../components/UI/userCard";
 import Loader from "../../components/UI/Loader";
+import { fetchUsers } from "../../redux/features/users/UserSlice";
 
 const UsersPage = () => {
   const dispatch = useDispatch();
@@ -11,6 +12,7 @@ const UsersPage = () => {
 
   const handleMakeAdmin = (userId) => {
     dispatch(makeUserAdmin(userId));
+    dispatch(fetchUsers());
   };
 
   if (loading) return <Loader />;

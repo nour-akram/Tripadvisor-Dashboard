@@ -29,12 +29,13 @@ export const useAttractionHandlers = () => {
     await dispatch(createAttraction(newFormData));
     setShowModal(false);
     console.log("Attraction created successfully" , newFormData);
-    
+    dispatch(fetchAttractions());
   };
 
   const handleEditSubmit = async (updatedFormData, id) => {
     await dispatch(updateAttraction({ id, formData: updatedFormData }));
     setShowModal(false);
+    dispatch(fetchAttractions());
   };
 
   const handleDelete = async (id) => {

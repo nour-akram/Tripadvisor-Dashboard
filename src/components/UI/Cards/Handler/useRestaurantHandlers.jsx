@@ -4,6 +4,7 @@ import {
   createRestaurant,
   deleteRestaurant,
   editRestaurant,
+  fetchRestaurants,
 } from "../../../../redux/features/restaurants/restaurantSlice";
 
 export function useRestaurantHandlers() {
@@ -224,6 +225,7 @@ Object.entries(formData.imageFiles).forEach(([key, files]) => {
 
   try {
     await dispatch(createRestaurant(form)).unwrap();
+    dispatch(fetchRestaurants());
     handleClose();
   } catch (err) {
     console.error("Submission failed:", err);
@@ -235,6 +237,8 @@ Object.entries(formData.imageFiles).forEach(([key, files]) => {
     try {
       await dispatch(deleteRestaurant(id)).unwrap();
       console.log("Restaurant deleted successfully");
+      dispatch(fetchRestaurants());
+
     } catch (err) {
       console.error("Failed to delete restaurant:", err);
     }
@@ -245,6 +249,7 @@ Object.entries(formData.imageFiles).forEach(([key, files]) => {
       console.log("Submitting edit for restaurant:", id, updatedData);
       await dispatch(editRestaurant({ id, updatedData })).unwrap();
       console.log("Restaurant updated successfully");
+      dispatch(fetchRestaurants());
       handleClose();
     } catch (err) {
       console.error("Failed to update restaurant:", err);
