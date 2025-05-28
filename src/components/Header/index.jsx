@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchNotifications } from "../../redux/features/notifications/notificationSlice";
 import { fetchSearchResults } from "../../redux/features/search/searchSlice";
 
-const socket = io("http://localhost:3000", {
+const socket = io("https://tripadvisor-api.vercel.app", {
   transports: ["websocket"],
 });
 
