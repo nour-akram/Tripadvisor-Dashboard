@@ -87,6 +87,15 @@ const Header = () => {
     };
   }, [dispatch]);
 
+
+  useEffect(() => {
+    if (hasNew) {
+      document.title = `🔴(1) Tripadvisor Dashboard`;
+    } else {
+      document.title = "Tripadvisor Dashboard";
+    }
+  }, [hasNew]);
+  
   const [searchQuery, setSearchQuery] = useState("");
   const handleSearch = (e) => {
     if (e.key === 'Enter' || e.type === 'click') {
